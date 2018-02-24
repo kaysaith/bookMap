@@ -1,0 +1,51 @@
+<!--index.wxml-->
+<view class = 'home'>
+  <view class = 'header'>
+    <view class = 'topBar'>
+      <button class = 'createButton' catchtap = 'showOverlay'>+</button>
+      <view class='search'>
+        <input placeholder = "搜索书名"/>
+      </view>
+    </view>
+    <text class = 'left'>全部图书</text>
+    <text class = 'right'>累计 2092 本</text>
+  </view>
+
+  <!-- Scroll View -->
+  <scroll-view>
+    <view 
+    class = 'child'
+    wx:for="{{array}}">
+      <image mode = 'aspectFill' src="{{item.src}}"></image>
+      <text>{{item.name}}</text>
+    </view>
+  </scroll-view>
+
+  <!-- Overlay View -->
+  <view class="overlay {{ showView?'show':'hide'}}">
+    <view class='navi'>
+      <text class='addCoverButton'>add cover</text>
+      <text class='title'>Create Book</text>
+      <text class='closeButton' catchtap = 'showOverlay'>close</text>
+    </view>
+    <view class='form'>
+      <text>书名</text>
+      <view class = 'input'>
+        <input placeholder='录入书的名字'></input>
+      </view>
+      <text>标签</text>
+      <view class = 'input'>
+      <input placeholder='录入书的标签'></input>
+      </view>
+      <view class='position'>
+        <text>column</text>
+        <input placeholder = '0' type = 'number'></input>
+      </view>
+      <view class='position right'>
+        <text>row</text>
+        <input placeholder = '0' type = 'number'></input>
+      </view>
+      <button>CREATE</button>
+    </view>
+  </view>
+</view>

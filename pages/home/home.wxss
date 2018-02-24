@@ -1,0 +1,203 @@
+/* pages/home/home.wxss */
+
+.header {
+  width: calc(100% - 40px);
+  padding: 0 20px; 
+}
+
+.topBar {
+  width: 100%;
+  float: left;
+  margin-top: 10px;
+}
+
+.createButton {
+  background-color: #71c27f;
+  border-radius: 10px;
+  width: 50px;
+  height: 50px;
+  float: left;
+  text-align: center;
+  line-height: 46px;
+  font-size: 36px;
+  color: white;
+}
+
+.search {
+  width: calc(100% - 60px);
+  height: 50px;
+  float: right;
+  background-color: #f1f1f1;
+  border-radius: 10px;
+}
+
+.search input {
+  height: 100%;
+  line-height: 50px;
+  font-size: 18px;
+  width: 100%;
+  text-align: center;
+  font-weight: 200;
+}
+
+.header text {
+  height: 70px;
+  line-height: 70px;
+}
+
+.header .left {
+  color: #66708c;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.header .right {
+  color: rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+scroll-view {
+  width: calc(100% - 20px);
+  padding: 0 10px 0px 10px;
+}
+
+scroll-view .child {
+  background-color: #f1f1f1;
+  width: calc((100% - 40px) / 2);
+  height: 65vw;
+  float: left;
+  margin: 0 10px 40px 10px;
+  color: white;
+}
+
+.child image {
+  width: 100%;
+  height: 100%;
+  float: left;
+  margin: 0;
+}
+
+.child text {
+  color: #66708c;
+  font-size: 14px;
+  height: 40px;
+  line-height: 40px;
+  overflow-y: hidden;
+  float: left;
+}
+
+/*————— Overlay Style —————*/
+
+.overlay {
+  background-color: #7283b2;
+  width: calc(100% - 40px);
+  padding: 10px 20px 30px;
+  position: fixed;
+  bottom: 0;
+}
+
+.show {
+  display: block;
+}
+.hide {
+  display: none;
+}
+
+.overlay .navi {
+  float: left;
+  width: 100%;
+  height: 50px;
+}
+
+.navi text {
+  color: white;
+  line-height: 50px;
+  float: left;
+}
+
+.navi .addCoverButton {
+  float: left;
+  width: 80px;
+  height: 100%;
+  font-size: 14px;
+}
+
+.navi .title {
+  width: calc(100% - 160px);
+  height: 100%;
+  text-align: center;
+  float: left;
+  font-weight: bold;
+}
+
+.navi .closeButton {
+  float: right;
+  width: 80px;
+  height: 100%;
+  font-size: 14px;
+  text-align: right;
+}
+
+.form text {
+  color: white;
+  font-weight: 200;
+  width: 100%;
+  line-height: 40px;
+  font-size: 18px;
+  margin: 0 0 0 5px;
+}
+
+.form .input {
+  background-color: white;
+  border-radius: 10px;
+  width: 100%;
+  height: 50px;
+}
+
+.input input {
+  width: calc(100% - 30px);
+  height: 100%;
+  margin: 0 15px 0px 15px;
+  font-size: 14px;
+}
+
+.position {
+  float: left;
+  background-color: white;
+  border-radius: 10px;
+  height: 50px;
+  width: calc((100% - 20px) / 2);
+  margin: 10px 0;
+}
+
+.position.right {
+  float: right;
+}
+
+.position text {
+  font-size: 14px;
+  color: #7283b2;
+  margin-left: 15px;
+  width: 50px;
+  float: left;
+  font-weight: bold;
+  line-height: 50px;
+}
+
+.position input {
+  font-size: 14px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.form button {
+  background-color: #f2ec56;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  height: 50px;
+  line-height: 50px;
+}
