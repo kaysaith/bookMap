@@ -1,0 +1,27 @@
+<!-- Overlay View -->
+<view class="overlay {{ showView?'show':'hide'}}">
+  <view class='navi'>
+    <text class='addCoverButton'>add cover</text>
+    <text class='title'>Create Book</text>
+    <text class='closeButton' catchtap = 'showOverlay'>close</text>
+  </view>
+  <view class='form'>
+    <text>书名</text>
+    <view class = 'input'>
+      <input placeholder='录入书的名字'></input>
+    </view>
+    <text>标签</text>
+    <view class = 'input'>
+    <input placeholder='录入书的标签'></input>
+    </view>
+    <view class='position'>
+      <text>column</text>
+      <input placeholder = '0' type = 'number'></input>
+    </view>
+    <view class='position right'>
+      <text>row</text>
+      <input placeholder = '0' type = 'number'></input>
+    </view>
+    <button>CREATE</button>
+  </view>
+</view>
