@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "Book Map"
+  "navigationBarTitleText": "Book Map",
+  "usingComponents": {
+    "settings": "../../common/settings/settings"
+  }
 }

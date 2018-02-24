@@ -1,0 +1,4 @@
+<!-- Search View -->
+<view class = 'settings'>
+  <include src = "../../common/header.wxml"/>
+</view>

@@ -13,7 +13,7 @@
       </view>
     </view>
     <text class = 'left'>全部图书</text>
-    <text class = 'right' catchtap = 'logOut'> | 登出</text>
+    <text class = 'right' catchtap = 'showSettings'> | 设置</text>
     <text class = 'right'>累计 2092 本</text>
   </view>
 
@@ -35,5 +35,6 @@
   </scroll-view>
 </view>
 
+<settings id='settings'></settings>
 <include src = "../../common/overlay.wxml"/>
 <include src = "../../common/searchResult.wxml"/>

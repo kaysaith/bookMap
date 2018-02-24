@@ -73,22 +73,23 @@ Page({
     hasUploaded: false,
     scrollViewHeight: 0,
     showCreateButton: true,
-    showCancelButton: false
+    showCancelButton: false,
+
+    showSettingsView: false
   },
 
   upper: function (e) {
-    console.log('hello')
+    console.log('upper')
   },
 
   scroll: function() {
-    console.log('shit')
+    console.log('scroll')
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
     for (let index = 0; index < 10; index++) {
       data.push({ 
         src: covers[index],
@@ -105,10 +106,7 @@ Page({
     
     this.setData({
       array: data,
-      resultList: item
-    })
-
-    this.setData({
+      resultList: item,
       scrollViewHeight: wx.getSystemInfoSync().windowHeight - 130,
       resultHeight: wx.getSystemInfoSync().windowHeight - 130
     })
@@ -116,7 +114,7 @@ Page({
   },
 
   // 显示悬浮曾的开关
-  showOverlay: () => {
+  showOverlay: function() {
     this.setData({
       showView: !this.data.showView
     })
@@ -125,7 +123,7 @@ Page({
     if (this.data.showView === false) this.setData({ hasUploaded: false })
   },
 
-  showResult: () => {
+  showResult: function() {
     this.setData({
       showCancelButton: true,
       showCreateButton: false,
@@ -133,7 +131,7 @@ Page({
     })
   },
 
-  cancelSearch: () => {
+  cancelSearch: function() {
     this.setData({
       showCancelButton: false,
       showCreateButton: true,
@@ -148,32 +146,20 @@ Page({
     })
   },
 
-  uploadCover: () => {
+  uploadCover: function() {
     Component.chooseImage(() => this.setData({ hasUploaded: true }))
   },
 
-  logOut: () => {
-    wx.showModal({
-      title: '登出',
-      content: '你确认要退出登录么?',
-      success: (response) => {
-        if (response.confirm) {
-          wx.removeStorage({
-            key: 'logStatus',
-            success: function(res) {
-              wx.redirectTo({ url: '../index/index' })
-            }
-          })
-        }
-      }
-    })
+  showSettings: function() {
+    this.settings.switchSettings()
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    //获得 `settings` 组件
+    this.settings = this.selectComponent("#settings");
   },
 
   /**
