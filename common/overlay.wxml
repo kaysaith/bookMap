@@ -1,7 +1,9 @@
 <!-- Overlay View -->
-<view class="overlay {{ showView?'show':'hide'}}">
+<view class="overlay {{ showView?'showWithAnimation':'hide' }}">
   <view class='navi'>
-    <text class='addCoverButton'>add cover</text>
+    <text 
+      class='addCoverButton' 
+      catchtap = 'uploadCover'>{{ hasUploaded?'finish':'add cover' }}</text>
     <text class='title'>Create Book</text>
     <text class='closeButton' catchtap = 'showOverlay'>close</text>
   </view>

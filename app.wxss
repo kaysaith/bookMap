@@ -5,7 +5,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 200rpx 0;
   box-sizing: border-box;
 } 
 
@@ -22,14 +21,19 @@
 
 @keyframes mymove
 {
-  from {bottom: -200px}
+  from {bottom: -300px}
   to {bottom: 0}
 }
 
-.show {
-  animation:mymove 0.3s ease-in-out;
+.showWithAnimation {
+  animation: mymove 0.3s ease-in-out;
   display: block;
 }
+
+.show {
+  display: block;
+}
+
 .hide {
   display: none;
 }
@@ -131,4 +135,50 @@
   font-size: 14px;
   height: 50px;
   line-height: 50px;
+}
+
+/*—————— Search Result ——————*/
+
+.searchResult {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 130px;
+}
+
+.searchResult .item {
+  background-color: #f1f1f1;
+  width: calc(100% - 40px);
+  height: 90px;
+  margin: 40px 20px 0 20px;
+  padding: 15px 0;
+}
+
+.item .info {
+  width: 100%;
+}
+
+.searchResult .item image {
+  width: 100px;
+  height: 140px;
+  margin: -50px 0 0 20px;
+  float: left;
+}
+
+.item .info text{
+  color: #66708c;
+  font-size: 14px;
+  font-weight: bold;
+  float: left;
+  width: calc(100% - 140px);
+  margin: 0 0 0 15px;
+}
+
+.item .border {
+  width: calc(100% - 150px);
+  height: 1px;
+  background-color: #ddd;
+  margin: 10px 0 10px 15px;
+  float: left;
 }
