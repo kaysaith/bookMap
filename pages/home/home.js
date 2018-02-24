@@ -142,7 +142,7 @@ Page({
   },
 
   goToDetail: function (event) {
-    let pageInfo = JSON.stringify(data[event.currentTarget.dataset.index])
+    let pageInfo = JSON.stringify(item[event.currentTarget.dataset.index])
     wx.navigateTo({
       url: '../detail/detail?pageInfo=' + pageInfo
     })

@@ -15,7 +15,10 @@ Page({
     var info = JSON.parse(options.pageInfo)
     wx.setNavigationBarTitle({ title: info.name })
 
-    this.setData({ bookCover: info.src })
+    this.setData({ 
+      bookCover: info.src,
+      position: info.position
+    })
   },
 
   /**

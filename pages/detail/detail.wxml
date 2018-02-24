@@ -10,7 +10,7 @@
   <view class = 'content'>
     <text>存放位置</text>
     <view class = 'border'></view>
-    <label>column 3 row 2</label>
+    <label>{{ position }}</label>
 
     <text>标签</text>
     <view class = 'border'></view>
