@@ -21,3 +21,4 @@
     class = 'button firend' 
     bindtap = 'goToFamilyDetail'>FAMILY'S SHELF</button>
 </view>
+<overlay id = 'overlay'></overlay>

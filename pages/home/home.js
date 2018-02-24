@@ -4,7 +4,7 @@ import { Component } from '../../common/component'
 
 const covers = [
   'https://img3.doubanio.com/lpic/s29642615.jpg',
-  'https://img1.doubanio.com/lpic/s29602519.jpg',
+  'https://img3.doubanio.com/lpic/s27734425.jpg',
   'https://img3.doubanio.com/lpic/s29642731.jpg',
   'https://img3.doubanio.com/lpic/s29632235.jpg',
   'https://img3.doubanio.com/lpic/s29594034.jpg',
@@ -17,7 +17,7 @@ const covers = [
 
 const names = [
   "Say You're Sorry (Morgan Dane Book 1)",
-  "The Girl You Left Behind: A Novel",
+  "迷宫中的将军",
   "Before We Were Yours: A Novel",
   "The Very Hungry Caterpillar Eric Carle",
   "White Rose, Black Forest",
@@ -116,7 +116,7 @@ Page({
   },
 
   // 显示悬浮曾的开关
-  showOverlay: function () {
+  showOverlay: () => {
     this.setData({
       showView: !this.data.showView
     })
@@ -125,7 +125,7 @@ Page({
     if (this.data.showView === false) this.setData({ hasUploaded: false })
   },
 
-  showResult: function() {
+  showResult: () => {
     this.setData({
       showCancelButton: true,
       showCreateButton: false,
@@ -133,7 +133,7 @@ Page({
     })
   },
 
-  cancelSearch: function() {
+  cancelSearch: () => {
     this.setData({
       showCancelButton: false,
       showCreateButton: true,
@@ -141,15 +141,32 @@ Page({
     })
   },
 
-  goToDetail: function (event) {
+  goToDetail: (event) => {
     let pageInfo = JSON.stringify(item[event.currentTarget.dataset.index])
     wx.navigateTo({
       url: '../detail/detail?pageInfo=' + pageInfo
     })
   },
 
-  uploadCover: function() {
+  uploadCover: () => {
     Component.chooseImage(() => this.setData({ hasUploaded: true }))
+  },
+
+  logOut: () => {
+    wx.showModal({
+      title: '登出',
+      content: '你确认要退出登录么?',
+      success: (response) => {
+        if (response.confirm) {
+          wx.removeStorage({
+            key: 'logStatus',
+            success: function(res) {
+              wx.redirectTo({ url: '../index/index' })
+            }
+          })
+        }
+      }
+    })
   },
 
   /**
