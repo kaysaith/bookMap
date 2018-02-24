@@ -57,9 +57,22 @@
   margin-right: 10px;
 }
 
+/*—————— Scroll View ——————*/
+
 scroll-view {
   width: calc(100% - 20px);
   padding: 0 10px 0px 10px;
+}
+
+scroll-view .bookID {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.75);
+  font-size: 14px;
+  font-style: italic;
+  text-align: center;
+  border-radius: 100px;
+  padding: 3px 15px;
+  margin: 10px 0 0 10px;
 }
 
 scroll-view .child {

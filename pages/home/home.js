@@ -26,6 +26,19 @@ const covers = [
     "White Rose, Black Forest"
   ]
 
+  const id = [
+    1920,
+    1921,
+    1922,
+    1923,
+    1924,
+    1925,
+    1926,
+    1927,
+    1928,
+    1929,
+  ]
+
   const data = []
 
 Page({
@@ -46,7 +59,8 @@ Page({
     for (let index = 0; index < 10; index++) {
       data.push({ 
         src: covers[index] ,
-        name: names[index]
+        name: names[index],
+        id: id[index]
       })
     }
     
@@ -62,8 +76,6 @@ Page({
     this.setData({
       showView: !this.data.showView
     })
-    console.log('hello')
-    console.log(this.data.showView)
   },
 
   /**

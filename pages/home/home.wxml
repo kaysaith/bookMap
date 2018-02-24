@@ -15,7 +15,9 @@
   <scroll-view>
     <view 
     class = 'child'
-    wx:for="{{array}}">
+    wx:for = "{{array}}"
+    wx:key = "{{item.index}}">
+      <label class='bookID'># {{item.id}}</label>
       <image mode = 'aspectFill' src="{{item.src}}"></image>
       <text>{{item.name}}</text>
     </view>
