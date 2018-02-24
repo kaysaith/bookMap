@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view class = "container">
-  <view class = "userinfo">
+  <!-- <view class = "userinfo">
     <button 
     wx:if = "{{!hasUserInfo && canIUse}}" 
     open-type = "getUserInfo" 
@@ -14,9 +14,19 @@
       </image>
       <text class = "userinfo-nickname">{{userInfo.nickName}}</text>
     </block>
-  </view>
-  <button bindtap = 'jump'>JUMP</button>
-  <view class = "usermotto">
-    <text class = "user-motto">{{motto}}</text>
-  </view>
+  </view> -->
+  <swiper indicator-dots="{{indicatorDots}}"
+  autoplay="{{ autoplay }}" interval="{{ interval }}" duration="{{ duration }}">
+  <block 
+    wx:key = '{{ index }}'
+    wx:for = "{{ imgUrls }}">
+    <swiper-item>
+      <image 
+      mode = 'aspectFill'
+      src = "{{ item }}" 
+      class = "slide-image"/>
+    </swiper-item>
+  </block>
+  </swiper>
+  <button class = 'start' bindtap = 'jump'>GET START</button>
 </view>

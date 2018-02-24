@@ -2,9 +2,14 @@
 <view class = 'home'>
   <view class = 'header'>
     <view class = 'topBar'>
-      <label class = 'createButton' catchtap = 'showOverlay'>+</label>
+      <label 
+        class = "createButton {{ showCreateButton?'show':'hide' }}"
+        catchtap = 'showOverlay'>+</label>
+      <label 
+        class = "cancelButton {{ showCancelButton?'show':'hide' }}"
+        catchtap = 'cancelSearch'>取消</label>
       <view class='search'>
-        <input placeholder = "搜索书名"/>
+        <input placeholder = "搜索书名" bindfocus = 'showResult'/>
       </view>
     </view>
     <text class = 'left'>全部图书</text>
@@ -12,16 +17,22 @@
   </view>
 
   <!-- Scroll View -->
-  <scroll-view>
+  <scroll-view 
+  scroll-y style = "height: {{ scrollViewHeight }}px" 
+  bindscrolltolower = "upper" 
+  bindscroll = "scroll">
     <view 
     class = 'child'
+    catchtap = "goToDetail"
     wx:for = "{{array}}"
-    wx:key = "{{item.index}}">
+    data-index = "{{ index }}"
+    wx:key = "{{ index }}">
       <label class='bookID'># {{item.id}}</label>
-      <image mode = 'aspectFill' src="{{item.src}}"></image>
+      <image mode = 'aspectFill' src="{{ item.src }}"></image>
       <text>{{item.name}}</text>
     </view>
   </scroll-view>
 </view>
 
 <include src = "../../common/overlay.wxml"/>
+<include src = "../../common/searchResult.wxml"/>

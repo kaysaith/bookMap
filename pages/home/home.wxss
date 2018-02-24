@@ -22,6 +22,18 @@
   color: white;
 }
 
+.cancelButton {
+  background-color: #000;
+  border-radius: 10px;
+  width: 50px;
+  height: 50px;
+  float: left;
+  text-align: center;
+  line-height: 50px;
+  font-size: 14px;
+  color: white;
+}
+
 .search {
   width: calc(100% - 60px);
   height: 50px;
@@ -54,13 +66,19 @@
   color: rgba(0, 0, 0, 0.2);
   font-size: 14px;
   margin-right: 10px;
+  float: right;
 }
 
 /*—————— Scroll View ——————*/
 
 scroll-view {
-  width: calc(100% - 20px);
-  padding: 0 10px 0px 10px;
+  width: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
 }
 
 scroll-view .bookID {
@@ -76,10 +94,10 @@ scroll-view .bookID {
 
 scroll-view .child {
   background-color: #f1f1f1;
-  width: calc((100% - 40px) / 2);
+  width: calc((100% - 60px) / 2);
   height: 65vw;
   float: left;
-  margin: 0 10px 40px 10px;
+  margin: 0 0px 40px 20px;
   color: white;
 }
 
