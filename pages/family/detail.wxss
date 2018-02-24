@@ -1,0 +1,21 @@
+/* pages/family/detail.wxss */
+
+.container {
+  height: 100%;
+}
+
+.container image {
+  margin-top: calc((100vh - 60vw) / 2 - 100px);
+  width: 60%;
+  height: 60vw;
+  margin-left: 20%;
+}
+
+.container text {
+  font-size: 14px;
+  color: #ccc;
+  font-weight: 300;
+  width: 100%;
+  float: left;
+  text-align: center;
+}
