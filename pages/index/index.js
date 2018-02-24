@@ -2,13 +2,10 @@
 //获取应用实例
 const app = getApp()
 
-var hasLogged = false
+let hasLogged = false
 
 Page({
   data: {
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
 
     imgUrls: [
       '../../sources/images/Bookshelf.jpg',
@@ -27,26 +24,15 @@ Page({
     wx.getStorage({
       key: 'logStatus',
       success: function(res) {
-        console.log(res.data)
-        if (res.data === true) wx.navigateTo({ url: '../home/home' })
+        if (res.data) wx.redirectTo({ url: '../home/home' })
         else this.setData({ showLoginView: true })
       },
-      complete: () => {
-        if (!hasLogged) this.setData({ showLoginView: true })
-      }
-    })
-  },
-  getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
+      fail: () => this.setData({ showLoginView: true })
     })
   },
 
   goToHomepage: (e) => {
-    if (hasLogged) wx.navigateTo({ url: '../home/home' })
+    if (hasLogged) wx.redirectTo({ url: '../home/home' })
     else {
       wx.getUserInfo({
         success: res => {
@@ -58,7 +44,7 @@ Page({
           app.globalData.userInfo = res.userInfo
         },
         complete: () => {
-          if (hasLogged) wx.navigateTo({ url: '../home/home' })
+          if (hasLogged) wx.redirectTo({ url: '../home/home' })
         }
       })
     }

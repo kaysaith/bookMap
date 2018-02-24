@@ -13,6 +13,7 @@
       </view>
     </view>
     <text class = 'left'>全部图书</text>
+    <text class = 'right' catchtap = 'logOut'> | 登出</text>
     <text class = 'right'>累计 2092 本</text>
   </view>
 
