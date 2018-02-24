@@ -1,20 +1,5 @@
 <!--index.wxml-->
-<view class = "container">
-  <!-- <view class = "userinfo">
-    <button 
-    wx:if = "{{!hasUserInfo && canIUse}}" 
-    open-type = "getUserInfo" 
-    bindgetuserinfo = "getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image 
-      bindtap = "bindViewTap" 
-      class = "userinfo-avatar" 
-      src = "{{userInfo.avatarUrl}}" 
-      background-size = "cover">
-      </image>
-      <text class = "userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view> -->
+<view class = "container {{ showLoginView?'show':'hide'}}">
   <swiper indicator-dots="{{indicatorDots}}"
   autoplay="{{ autoplay }}" interval="{{ interval }}" duration="{{ duration }}">
   <block 
@@ -22,11 +7,17 @@
     wx:for = "{{ imgUrls }}">
     <swiper-item>
       <image 
-      mode = 'aspectFill'
-      src = "{{ item }}" 
-      class = "slide-image"/>
+        mode = 'aspectFill'
+        src = "{{ item }}" 
+        class = "slide-image"/>
     </swiper-item>
   </block>
   </swiper>
-  <button class = 'start' bindtap = 'jump'>GET START</button>
+  <button 
+    class = 'button' 
+    open-type = "goToHomepage" 
+    bindtap = 'goToHomepage'>GET START</button>
+  <button 
+    class = 'button firend' 
+    bindtap = 'goToFamilyDetail'>FAMILY'S SHELF</button>
 </view>

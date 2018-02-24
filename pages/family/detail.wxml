@@ -1,0 +1,9 @@
+<!--pages/family/detail.wxml-->
+<view class = "container {{showEmptyView?'show':'hide'}}">
+  <image src = '../../sources/images/emptyPlaceholder.jpg'></image>
+  <text>You haven't been added to the family yet</text>
+</view>
+
+<scroll-view class = "familyList {{showFamilyList?'show':'hide'}}">
+
+</scroll-view>
