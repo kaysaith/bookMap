@@ -4,7 +4,7 @@
     <view class = 'topBar'>
       <label 
         class = "createButton {{ showCreateButton?'show':'hide' }}"
-        catchtap = 'showOverlay'>+</label>
+        catchtap = 'showEditor'>+</label>
       <label 
         class = "cancelButton {{ showCancelButton?'show':'hide' }}"
         catchtap = 'cancelSearch'>取消</label>
@@ -35,6 +35,6 @@
   </scroll-view>
 </view>
 
-<settings id='settings'></settings>
-<include src = "../../common/overlay.wxml"/>
+<editor id = 'editor'></editor>
 <include src = "../../common/searchResult.wxml"/>
+<settings id = 'settings'></settings>

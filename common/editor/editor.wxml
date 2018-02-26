@@ -5,7 +5,7 @@
       class='addCoverButton' 
       catchtap = 'uploadCover'>{{ hasUploaded?'已添加':'添加封面' }}</text>
     <text class='title'>Create Book</text>
-    <text class='closeButton' catchtap = 'showOverlay'>关闭</text>
+    <text class='closeButton' catchtap = 'switchOverlay'>关闭</text>
   </view>
   <view class='form'>
     <text>书名</text>

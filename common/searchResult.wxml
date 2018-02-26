@@ -5,7 +5,7 @@
   <view 
     class='item'
     wx:for = "{{ resultList }}"
-    data-id = "{{ index }}"
+    data-index = "{{ index }}"
     catchtap = 'goToDetail'
     wx:key = "{{ index }}">
     <image 
