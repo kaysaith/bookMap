@@ -1,7 +1,5 @@
 // pages/home/home.js
 
-import { Component } from '../../common/component'
-
 const covers = [
   'https://img3.doubanio.com/lpic/s29642615.jpg',
   'https://img3.doubanio.com/lpic/s27734425.jpg',
