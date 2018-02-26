@@ -67,14 +67,11 @@ Page({
    */
 
   data: {
-    showView: false,
     showSearchResult: false,
     resultHeight: 0,
-    hasUploaded: false,
     scrollViewHeight: 0,
     showCreateButton: true,
     showCancelButton: false,
-
     showSettingsView: false
   },
 
@@ -113,16 +110,6 @@ Page({
 
   },
 
-  // 显示悬浮曾的开关
-  showOverlay: function() {
-    this.setData({
-      showView: !this.data.showView
-    })
-
-    // 悬浮曾关闭后恢复初始值
-    if (this.data.showView === false) this.setData({ hasUploaded: false })
-  },
-
   showResult: function() {
     this.setData({
       showCancelButton: true,
@@ -146,12 +133,12 @@ Page({
     })
   },
 
-  uploadCover: function() {
-    Component.chooseImage(() => this.setData({ hasUploaded: true }))
-  },
-
   showSettings: function() {
     this.settings.switchSettings()
+  },
+
+  showEditor: function() {
+    this.editor.switchOverlay()
   },
 
   /**
@@ -159,7 +146,8 @@ Page({
    */
   onReady: function () {
     //获得 `settings` 组件
-    this.settings = this.selectComponent("#settings");
+    this.settings = this.selectComponent("#settings")
+    this.editor = this.selectComponent("#editor")
   },
 
   /**
