@@ -1,3 +1,6 @@
+
+import { Api } from '../../app'
+
 // common/editor/editor.js
 Component({
   options: {
@@ -32,7 +35,32 @@ Component({
       if (this.data.showView === false) this.setData({ hasUploaded: false })
     },
     uploadCover: function () {
-      Component.chooseImage(() => this.setData({ hasUploaded: true }))
+      chooseImage((path) => {
+        this.setData({ hasUploaded: true })
+        wx.uploadFile({
+          url: Api.uploadCover,
+          filePath: path,
+          name: 'file',
+          header: {
+            "content-type": 'multipart/form-data'
+          },
+          success: function (res) {
+            var data = res.data
+            //do something
+          }
+        })
+      })
     },
   }
 })
+
+
+function chooseImage(callback) {
+  wx.chooseImage({
+    success: function (response) {
+      // 获取图片本地路径
+      if (typeof callback === 'function')
+        callback(response.tempFilePaths[0])
+    },
+  })
+}
