@@ -35,30 +35,12 @@ Component({
   methods: {
     // 显示悬浮曾的开关
     switchOverlay: function () {
-      this.setData({
-        showView: !this.data.showView
-      })
+      this.setData({ showView: !this.data.showView })
 
       // 悬浮曾关闭后恢复初始值
       if (this.data.showView === false) this.setData({ hasUploaded: false })
     },
-    uploadCover: function () {
-      chooseImage((path) => {
-        this.setData({ hasUploaded: true })
-        wx.uploadFile({
-          url: Api.uploadCover,
-          filePath: path,
-          name: 'file',
-          header: {
-            "content-type": 'multipart/form-data'
-          },
-          success: function (res) {
-            var data = res.data
-            //do something
-          }
-        })
-      })
-    },
+    // 创建图书的方法
     getBookName: function(content) {
       bookInfo.name = content.detail.value
     },
@@ -80,9 +62,11 @@ Component({
     },
 
     createBook: function() {
-      console.log('hey baby')
-      if (bookInfo.cover.length > 0) {
-
+      const that = this
+      wx.showLoading({
+        title: '正在创建',
+      })
+      if (bookInfo.cover.length * bookInfo.name.length != 0) {
         wx.uploadFile({
           url: Api.uploadCover,
           filePath: bookInfo.cover,
@@ -102,14 +86,29 @@ Component({
                 tag: bookInfo.tag,
                 row: bookInfo.row,
                 columnIndex: bookInfo.columnIndex
+              },
+              success: function() {
+                wx.hideLoading()
+                wx.showToast({ title: '创建成功' })
+                that.setData({ showView: !that.data.showView })
+                // 完毕后关闭悬浮曾
+                if (that.data.showView === false) 
+                  that.setData({ hasUploaded: false })
               }
             })
           }
         })
       } else {
-        wx.showToast({
-          title: '请添加封面',
-        })
+        if (bookInfo.name.length === 0 && bookInfo.cover.length === 0) {
+          wx.showToast({ title: '请填填写信息' })
+        } else {
+          if (bookInfo.name.length === 0) {
+            wx.showToast({ title: '请填写书名' })
+          }
+          if (bookInfo.cover.length === 0) {
+            wx.showToast({ title: '请添加封面' })
+          }
+        }
       }
     }
   }
