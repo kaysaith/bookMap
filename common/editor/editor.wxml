@@ -10,7 +10,7 @@
   <view class='form'>
     <text>书名</text>
     <view class = 'input'>
-      <input placeholder='录入书的名字'></input>
+      <input placeholder='录入书的名字' bindinput='getInputText'></input>
     </view>
     <text>标签</text>
     <view class = 'input'>
