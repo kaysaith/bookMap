@@ -1,5 +1,6 @@
 
 import { Api } from '../api.js'
+import { Utils } from '../component.js'
 
 const bookInfo = {
   name: '',
@@ -27,6 +28,7 @@ Component({
   data: {
     showView: false,
     hasUploaded: false,
+    infoInput: ''
   },
 
   /**
@@ -78,24 +80,32 @@ Component({
             var data = res.data
             //do something
             const coverUrl = res.data
-            wx.request({
-              url: Api.createBook,
-              data: {
-                name: bookInfo.name,
-                cover: coverUrl,
-                tag: bookInfo.tag,
-                row: bookInfo.row,
-                columnIndex: bookInfo.columnIndex
-              },
-              success: function() {
-                wx.hideLoading()
-                wx.showToast({ title: '创建成功' })
-                that.setData({ showView: !that.data.showView })
-                // 完毕后关闭悬浮曾
-                if (that.data.showView === false) 
-                  that.setData({ hasUploaded: false })
-              }
-            })
+            updateInfo()
+            function updateInfo() {
+              wx.request({
+                url: Api.createBook,
+                data: {
+                  name: bookInfo.name,
+                  cover: coverUrl,
+                  tag: bookInfo.tag,
+                  row: bookInfo.row,
+                  columnIndex: bookInfo.columnIndex
+                },
+                success: function () {
+                  wx.hideLoading()
+                  wx.showToast({ title: '创建成功' })
+                  that.setData({ showView: !that.data.showView })
+                  // 完毕后关闭悬浮曾
+                  if (that.data.showView === false)
+                    that.setData({ 
+                      hasUploaded: false,
+                      infoInput: '' 
+                    })
+                },
+                // 失败了进入重试机制
+                fail: () => Utils.retry(updateInfo)
+              })
+            }
           }
         })
       } else {

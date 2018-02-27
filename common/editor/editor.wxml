@@ -10,19 +10,33 @@
   <view class='form'>
     <text>书名</text>
     <view class = 'input'>
-      <input placeholder='录入书的名字' bindinput='getBookName'></input>
+      <input 
+        placeholder='录入书的名字' 
+        bindinput='getBookName'
+        value="{{ infoInput }}"></input>
     </view>
     <text>标签</text>
     <view class = 'input'>
-    <input placeholder='录入书的标签' bindinput='getBookTag'></input>
+    <input 
+      placeholder='录入书的标签' 
+      bindinput='getBookTag'
+      value="{{ infoInput }}"></input>
     </view>
     <view class='position'>
       <text>column</text>
-      <input placeholder = '0' type = 'number' bindinput='getColumnIndex'></input>
+      <input 
+        placeholder = '0' 
+        type = 'number' 
+        bindinput='getColumnIndex'
+        value="{{ infoInput }}"></input>
     </view>
     <view class='position right'>
       <text>row</text>
-      <input placeholder = '0' type = 'number' bindinput='getRowIndex'></input>
+      <input 
+        placeholder = '0' 
+        type = 'number' 
+        bindinput='getRowIndex'
+        value="{{ infoInput }}"></input>
     </view>
     <button catchtap = 'createBook'>CREATE</button>
   </view>
