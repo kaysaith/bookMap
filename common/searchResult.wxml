@@ -1,0 +1,20 @@
+<!-- Search View -->
+<scroll-view 
+  scroll-y style = "height: {{ resultHeight }}px"
+  class = "searchResult {{ showSearchResult?'show':'hide' }}">
+  <view 
+    class='item'
+    wx:for = "{{ resultList }}"
+    data-index = "{{ index }}"
+    catchtap = 'goToDetail'
+    wx:key = "{{ index }}">
+    <image 
+    mode = 'aspectFill'
+    src='{{ item.src }}'></image>
+    <view class = 'info'>
+      <text>Can't help falling in love with you</text>
+      <view class = 'border'></view>
+      <text>column 3 row 4</text>
+    </view>
+  </view>
+</scroll-view>

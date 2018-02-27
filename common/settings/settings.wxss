@@ -1,0 +1,65 @@
+/* common/settings/settings.wxss */
+
+.settings {
+  width: 100%;
+  height: 240px;
+  background-color: #71c27f;
+  position: fixed;
+  bottom: 0;
+  box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.settings .navi {
+  width: calc(100% - 40px);
+  height: 50px;
+  padding: 10px 20px;
+}
+
+.settings .title {
+  width: calc(100% - 100px);
+  height: 50px;
+  margin-left: 50px;
+  font-size: 18px;
+  color: white;
+  line-height: 50px;
+  float: left;
+  text-align: center;
+  font-weight: bold;
+}
+
+.settings .closeButton {
+  width: 50px;
+  height: 50px;
+  float: right;
+  font-size: 14px;
+  color: white;
+  line-height: 50px;
+  text-align: right;
+}
+
+.settings label {
+  width: calc(100% - 40px);
+  height: 50px;
+  float: left;
+  margin-left: 20px;
+  color: white;
+  font-weight: 300;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.25);
+  line-height: 50px;
+  font-size: 16px;
+}
+
+@keyframes mymove
+{
+  from {bottom: -300px}
+  to {bottom: 0}
+}
+
+.showWithAnimation {
+  animation: mymove 0.3s ease-in-out;
+  display: block;
+}
+
+.hide {
+  display: none;
+}

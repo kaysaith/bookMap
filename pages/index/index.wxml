@@ -1,0 +1,24 @@
+<!--index.wxml-->
+<view class = "container {{ showLoginView?'show':'hide'}}">
+  <swiper indicator-dots="{{indicatorDots}}"
+  autoplay="{{ autoplay }}" interval="{{ interval }}" duration="{{ duration }}">
+  <block 
+    wx:key = '{{ index }}'
+    wx:for = "{{ imgUrls }}">
+    <swiper-item>
+      <image 
+        mode = 'aspectFill'
+        src = "{{ item }}" 
+        class = "slide-image"/>
+    </swiper-item>
+  </block>
+  </swiper>
+  <button 
+    class = 'button' 
+    open-type = "goToHomepage" 
+    bindtap = 'goToHomepage'>GET START</button>
+  <button 
+    class = 'button firend' 
+    bindtap = 'goToFamilyDetail'>FAMILY'S SHELF</button>
+</view>
+<overlay id = 'overlay'></overlay>

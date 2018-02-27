@@ -1,0 +1,21 @@
+<!--pages/familyMember/detail.wxml-->
+<scroll-view class='memberList'>
+  <view 
+    wx:for = "{{ array }}"
+    wx:key = "{{ index }}"
+    class='member'>
+    {{ item.name }}
+    <button catchtap = 'deleteMember'>删除</button>
+    </view>
+</scroll-view>
+
+<button class = 'addMemberButton' catchtap = 'addMember'>添加成员</button>
+
+<view class = "mask {{showOverlay?'show':'hide'}}">
+  <view class = 'inputOverlayView'>
+    <text>添加成员</text>
+    <input placeholder = '输入对方的微信ID'></input>
+    <button class = 'confirmButton button' catchtap = 'confirm'>确认</button>
+    <button class = 'cancelButton button' catchtap = 'cancel'>取消</button>
+  </view>
+</view>

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "Book Map",
+  "usingComponents": {
+    "settings": "../../common/settings/settings",
+    "editor": "../../common/editor/editor"
+  }
+}

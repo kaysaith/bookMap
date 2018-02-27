@@ -1,0 +1,40 @@
+<!--index.wxml-->
+<view class = 'home'>
+  <view class = 'header'>
+    <view class = 'topBar'>
+      <label 
+        class = "createButton {{ showCreateButton?'show':'hide' }}"
+        catchtap = 'showEditor'>+</label>
+      <label 
+        class = "cancelButton {{ showCancelButton?'show':'hide' }}"
+        catchtap = 'cancelSearch'>取消</label>
+      <view class='search'>
+        <input placeholder = "搜索书名" bindfocus = 'showResult'/>
+      </view>
+    </view>
+    <text class = 'left'>全部图书</text>
+    <text class = 'right' catchtap = 'showSettings'> | 设置</text>
+    <text class = 'right'>累计 2092 本</text>
+  </view>
+
+  <!-- Scroll View -->
+  <scroll-view 
+  scroll-y style = "height: {{ scrollViewHeight }}px" 
+  bindscrolltolower = "upper" 
+  bindscroll = "scroll">
+    <view 
+    class = 'child'
+    catchtap = "goToDetail"
+    wx:for = "{{array}}"
+    data-index = "{{ index }}"
+    wx:key = "{{ index }}">
+      <label class='bookID'># {{item.id}}</label>
+      <image mode = 'aspectFill' src="{{ item.src }}"></image>
+      <text>{{item.name}}</text>
+    </view>
+  </scroll-view>
+</view>
+
+<editor id = 'editor'></editor>
+<include src = "../../common/searchResult.wxml"/>
+<settings id = 'settings'></settings>

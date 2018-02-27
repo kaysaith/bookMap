@@ -1,0 +1,20 @@
+<!--pages/detail/detail.wxml-->
+<scroll-view>
+  <view class = 'cover'>
+    <image 
+    mode = 'aspectFill'
+    src = '{{ bookCover }}'>
+    </image>
+  </view>
+
+  <view class = 'content'>
+    <text>存放位置</text>
+    <view class = 'border'></view>
+    <label>{{ position }}</label>
+
+    <text>标签</text>
+    <view class = 'border'></view>
+    <view class='tag'>HISTORY</view>
+    <view class='tag'>意识流</view>
+  </view>
+</scroll-view>
