@@ -3,27 +3,27 @@
   <view class='navi'>
     <text 
       class='addCoverButton' 
-      catchtap = 'uploadCover'>{{ hasUploaded?'已添加':'添加封面' }}</text>
+      catchtap = 'chooseCover'>{{ hasUploaded?'已添加':'添加封面' }}</text>
     <text class='title'>Create Book</text>
     <text class='closeButton' catchtap = 'switchOverlay'>关闭</text>
   </view>
   <view class='form'>
     <text>书名</text>
     <view class = 'input'>
-      <input placeholder='录入书的名字' bindinput='getInputText'></input>
+      <input placeholder='录入书的名字' bindinput='getBookName'></input>
     </view>
     <text>标签</text>
     <view class = 'input'>
-    <input placeholder='录入书的标签'></input>
+    <input placeholder='录入书的标签' bindinput='getBookTag'></input>
     </view>
     <view class='position'>
       <text>column</text>
-      <input placeholder = '0' type = 'number'></input>
+      <input placeholder = '0' type = 'number' bindinput='getColumnIndex'></input>
     </view>
     <view class='position right'>
       <text>row</text>
-      <input placeholder = '0' type = 'number'></input>
+      <input placeholder = '0' type = 'number' bindinput='getRowIndex'></input>
     </view>
-    <button>CREATE</button>
+    <button catchtap = 'createBook'>CREATE</button>
   </view>
 </view>
