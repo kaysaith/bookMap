@@ -1,5 +1,6 @@
 
 import { Api } from '../api.js'
+import { Utils } from '../component.js'
 
 const bookInfo = {
   name: '',
@@ -96,26 +97,34 @@ function chooseImage(callback) {
 }
 
 function updateInfo(that, coverUrl) {
-  wx.request({
-    url: Api.createBook,
-    data: {
-      name: bookInfo.name,
-      cover: coverUrl,
-      tag: bookInfo.tag,
-      row: bookInfo.row,
-      columnIndex: bookInfo.columnIndex
+  wx.getStorage({
+    key: 'account',
+    success: function(res) {
+      const openid = res.data.openid
+      wx.request({
+        url: Api.createBook,
+        data: {
+          name: bookInfo.name,
+          cover: coverUrl,
+          tag: bookInfo.tag,
+          row: bookInfo.row,
+          columnIndex: bookInfo.columnIndex,
+          openid: openid
+        },
+        success: function () {
+          wx.hideLoading()
+          wx.showToast({ title: '创建成功' })
+          that.setData({ showView: !that.data.showView })
+          // 完毕后关闭悬浮曾并清空接收器
+          if (that.data.showView === false)
+            that.setData({
+              hasUploaded: false,
+              infoInput: ''
+            })
+          that.triggerEvent("hasBeenCreated")
+        },
+        fail: () => Utils.retry(updateInfo)
+      })
     },
-    success: function () {
-      wx.hideLoading()
-      wx.showToast({ title: '创建成功' })
-      that.setData({ showView: !that.data.showView })
-      // 完毕后关闭悬浮曾并清空接收器
-      if (that.data.showView === false)
-        that.setData({
-          hasUploaded: false,
-          infoInput: ''
-        })
-    },
-    fail: () => Utils.retry(updateInfo)
   })
 }

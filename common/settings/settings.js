@@ -40,7 +40,7 @@ Component({
         success: (response) => {
           if (response.confirm) {
             wx.removeStorage({
-              key: 'logStatus',
+              key: 'account',
               success: function (res) {
                 wx.redirectTo({ url: '../index/index' })
               }
