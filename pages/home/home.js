@@ -35,6 +35,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
+    flipPage(this)
     
     this.setData({
       scrollViewHeight: wx.getSystemInfoSync().windowHeight - 130,
@@ -80,7 +82,11 @@ Page({
     //获得 `settings` 组件
     this.settings = this.selectComponent("#settings")
     this.editor = this.selectComponent("#editor")
-    flipPage(this)
+  },
+
+  onUnload: function () {
+    // 当页面卸载的时候恢复本页面存储的状态
+    isNoMorePage = false
   },
 
   hasBeenCreated: function() {
@@ -107,7 +113,7 @@ function flipPage(that) {
     // 如果已经拉不到整页的数据意味当下已经拉完了服务器的数据
     if (books.length < singlePageCount) isNoMorePage = true
     // 如果没有拉取导数据执行占位图提前跳出这个方法
-    if (books.length === 0) { 
+    if (books.length === 0 && homeBooks.length === 0) { 
       that.setData({ showEmptyView: true })
       wx.hideLoading()
       return
@@ -123,7 +129,7 @@ function flipPage(that) {
       searchBooks.push({
         src: books[index - currentPageCount].Cover,
         name: books[index - currentPageCount].Name,
-        position: 'Row' + books[index - currentPageCount].Row + ' Column ' + books[index - currentPageCount].ColumnIndex
+        position: 'Row ' + books[index - currentPageCount].Row + ' Column ' + books[index - currentPageCount].ColumnIndex
       })
     }
 
