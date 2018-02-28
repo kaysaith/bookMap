@@ -1,6 +1,5 @@
 
 import { Api } from '../api.js'
-import { Utils } from '../component.js'
 
 const bookInfo = {
   name: '',
@@ -38,11 +37,9 @@ Component({
     // 显示悬浮曾的开关
     switchOverlay: function () {
       this.setData({ showView: !this.data.showView })
-
       // 悬浮曾关闭后恢复初始值
       if (this.data.showView === false) this.setData({ hasUploaded: false })
     },
-    // 创建图书的方法
     getBookName: function(content) {
       bookInfo.name = content.detail.value
     },
@@ -55,7 +52,6 @@ Component({
     getRowIndex: function(content)  {
       bookInfo.row = parseInt(content.detail.value)
     },
-
     chooseCover: function() {
       chooseImage((path) => {
         this.setData({ hasUploaded: true })
@@ -63,61 +59,25 @@ Component({
       })
     },
 
-    createBook: function() {
+    createBook: function () {
       const that = this
-      wx.showLoading({
-        title: '正在创建',
-      })
+      wx.showLoading({ title: '正在创建' })
+      // 检查关键数据是否填写
       if (bookInfo.cover.length * bookInfo.name.length != 0) {
         wx.uploadFile({
           url: Api.uploadCover,
           filePath: bookInfo.cover,
           name: 'file',
-          header: {
-            "content-type": 'multipart/form-data'
-          },
-          success: function (res) {
-            var data = res.data
-            //do something
-            const coverUrl = res.data
-            updateInfo()
-            function updateInfo() {
-              wx.request({
-                url: Api.createBook,
-                data: {
-                  name: bookInfo.name,
-                  cover: coverUrl,
-                  tag: bookInfo.tag,
-                  row: bookInfo.row,
-                  columnIndex: bookInfo.columnIndex
-                },
-                success: function () {
-                  wx.hideLoading()
-                  wx.showToast({ title: '创建成功' })
-                  that.setData({ showView: !that.data.showView })
-                  // 完毕后关闭悬浮曾
-                  if (that.data.showView === false)
-                    that.setData({ 
-                      hasUploaded: false,
-                      infoInput: '' 
-                    })
-                },
-                // 失败了进入重试机制
-                fail: () => Utils.retry(updateInfo)
-              })
-            }
-          }
+          success: function (res) { updateInfo(that, res.data) }
         })
       } else {
         if (bookInfo.name.length === 0 && bookInfo.cover.length === 0) {
-          wx.showToast({ title: '请填填写信息' })
+          wx.showToast({ title: '请填写信息' })
         } else {
-          if (bookInfo.name.length === 0) {
+          if (bookInfo.name.length === 0) 
             wx.showToast({ title: '请填写书名' })
-          }
-          if (bookInfo.cover.length === 0) {
+          if (bookInfo.cover.length === 0)
             wx.showToast({ title: '请添加封面' })
-          }
         }
       }
     }
@@ -132,5 +92,30 @@ function chooseImage(callback) {
       if (typeof callback === 'function')
         callback(response.tempFilePaths[0])
     },
+  })
+}
+
+function updateInfo(that, coverUrl) {
+  wx.request({
+    url: Api.createBook,
+    data: {
+      name: bookInfo.name,
+      cover: coverUrl,
+      tag: bookInfo.tag,
+      row: bookInfo.row,
+      columnIndex: bookInfo.columnIndex
+    },
+    success: function () {
+      wx.hideLoading()
+      wx.showToast({ title: '创建成功' })
+      that.setData({ showView: !that.data.showView })
+      // 完毕后关闭悬浮曾并清空接收器
+      if (that.data.showView === false)
+        that.setData({
+          hasUploaded: false,
+          infoInput: ''
+        })
+    },
+    fail: () => Utils.retry(updateInfo)
   })
 }

@@ -9,5 +9,6 @@ const header =
 
 export const Api = {
   uploadCover: header + '/upload',
-  createBook: header + '/createBook'
+  createBook: header + '/createBook',
+  getTokenAndUserInfo: header + '/getTokenAndUserInfo',
 }
