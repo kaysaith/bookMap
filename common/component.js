@@ -33,6 +33,6 @@ export class Utils {
       }
       // 这个打印要长期保留, 出现网络问题需要随时定位到这里 by KaySaith
       console.log(retryTimes + 'retry')
-    }, 3000)
+    }, 2000)
   }
 }

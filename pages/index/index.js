@@ -4,8 +4,8 @@
 import { Api } from '../../common/api'
 
 const app = getApp()
-let hasLogged = false
 
+let hasLogged = false
 const bookMapUserInfo = {
   nickName: '',
   avatarUrl: ''
@@ -28,13 +28,11 @@ Page({
 
   onLoad: function () {
     wx.getStorage({
-      key: 'logStatus',
+      key: 'account',
       success: function(res) {
         wx.redirectTo({ url: '../home/home' })
       },
-      fail: () => {
-        this.setData({ showLoginView: true })
-      }
+      fail: () => this.setData({ showLoginView: true })
     })
   },
 
@@ -46,6 +44,7 @@ Page({
 })
 
 function loginOrRegister() {
+  wx.showLoading({ title: '正在校验登录数据' })
   wx.login({
     success: function (res) {
       if (res.code) {
@@ -71,9 +70,10 @@ function getTokenAndUpdateUserInfo(code, callback) {
         avatarUrl: info.avatarUrl
       },
       success: (result) => {
-        // result.data 返回的是 `openid` 和 `session_key`
-        if(setHasLogged()) {
+        // result.data 返回的是 `openid` 和 `token`
+        if(setHasLogged(result.data)) {
           if (typeof callback === 'function') callback()
+          wx.hideLoading()
         }
       }
     }) 
@@ -91,11 +91,11 @@ function getUserInfo(callback) {
   })
 }
 
-function setHasLogged() {
+function setHasLogged(account) {
   hasLogged = true
   wx.setStorage({
-    key: 'logStatus',
-    data: hasLogged,
+    key: 'account',
+    data: account,
   })
   return hasLogged
 }

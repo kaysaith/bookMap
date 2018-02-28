@@ -1,62 +1,10 @@
 // pages/home/home.js
 
-const covers = [
-  'https://img3.doubanio.com/lpic/s29642615.jpg',
-  'https://img3.doubanio.com/lpic/s27734425.jpg',
-  'https://img3.doubanio.com/lpic/s29642731.jpg',
-  'https://img3.doubanio.com/lpic/s29632235.jpg',
-  'https://img3.doubanio.com/lpic/s29594034.jpg',
-  'https://img1.doubanio.com/lpic/s29675389.jpg',
-  'https://img3.doubanio.com/lpic/s29668376.jpg',
-  'https://img3.doubanio.com/lpic/s29676191.jpg',
-  'https://img3.doubanio.com/lpic/s29652156.jpg',
-  'https://img3.doubanio.com/lpic/s29664110.jpg'
-]
+import { Api } from '../../common/api'
+import { Utils } from '../../common/component'
 
-const names = [
-  "Say You're Sorry (Morgan Dane Book 1)",
-  "迷宫中的将军",
-  "Before We Were Yours: A Novel",
-  "The Very Hungry Caterpillar Eric Carle",
-  "White Rose, Black Forest",
-  "Say You're Sorry (Morgan Dane Book 1)",
-  "The Girl You Left Behind: A Novel",
-  "Before We Were Yours: A Novel",
-  "The Very Hungry Caterpillar Eric Carle",
-  "White Rose, Black Forest"
-]
-
-const id = [
-  1920,
-  1921,
-  1922,
-  1923,
-  1924,
-  1925,
-  1926,
-  1927,
-  1928,
-  1929,
-]
-
-const positon = [
-  'column 3 row 2',
-  'column 2 row 6',
-  'column 4 row 8',
-  'column 6 row 1',
-  'column 1 row 3',
-  'column 3 row 2',
-  'column 2 row 6',
-  'column 4 row 8',
-  'column 6 row 1',
-  'column 1 row 3',
-]
-
-const data = []
-
-const item = []
-
-const app = getApp()
+const homeBooks = []
+const searchBooks = []
 
 Page({
 
@@ -70,11 +18,13 @@ Page({
     scrollViewHeight: 0,
     showCreateButton: true,
     showCancelButton: false,
-    showSettingsView: false
+    showSettingsView: false,
+    showEmptyView: false
   },
 
   upper: function (e) {
-    console.log('upper')
+    // 滚动触底的时候执行
+    flipPage(this)
   },
 
   scroll: function() {
@@ -85,23 +35,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    for (let index = 0; index < 10; index++) {
-      data.push({ 
-        src: covers[index],
-        name: names[index],
-        id: id[index]
-      })
-
-      item.push({
-        src: covers[index],
-        name: names[index],
-        position: positon[index]
-      })
-    }
     
     this.setData({
-      array: data,
-      resultList: item,
       scrollViewHeight: wx.getSystemInfoSync().windowHeight - 130,
       resultHeight: wx.getSystemInfoSync().windowHeight - 130
     })
@@ -125,9 +60,8 @@ Page({
   },
 
   goToDetail: (event) => {
-    let pageInfo = JSON.stringify(item[event.currentTarget.dataset.index])
     wx.navigateTo({
-      url: '../detail/detail?pageInfo=' + pageInfo
+        url: '../detail/detail?pageInfo=' + JSON.stringify(searchBooks[event.currentTarget.dataset.index])
     })
   },
 
@@ -146,47 +80,95 @@ Page({
     //获得 `settings` 组件
     this.settings = this.selectComponent("#settings")
     this.editor = this.selectComponent("#editor")
+    flipPage(this)
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
+  hasBeenCreated: function() {
+    refreshPage(this)
   }
 })
+
+let currentPageCount = 0
+let isNoMorePage = false
+const singlePageCount = 10
+
+function refreshPage(that) {
+  currentPageCount = 0
+  isNoMorePage = false
+  homeBooks.splice(0, homeBooks.length)
+  searchBooks.splice(0, searchBooks.length)
+  flipPage(that)
+}
+
+function flipPage(that) {
+  if (isNoMorePage) return // 如果没有更多就不用向下执行了
+  wx.showLoading({ title: '正在加载图书' })
+  getBooks(currentPageCount, (books) => {
+    // 如果已经拉不到整页的数据意味当下已经拉完了服务器的数据
+    if (books.length < singlePageCount) isNoMorePage = true
+    // 如果没有拉取导数据执行占位图提前跳出这个方法
+    if (books.length === 0) { 
+      that.setData({ showEmptyView: true })
+      wx.hideLoading()
+      return
+    }
+
+    let maxCount = books.length < singlePageCount ? books.length : singlePageCount
+    for (let index = currentPageCount; index < currentPageCount + maxCount; index++) {
+      homeBooks.push({
+        src: books[index - currentPageCount].Cover,
+        name: books[index - currentPageCount].Name,
+        id: books[index - currentPageCount].ID
+      })
+      searchBooks.push({
+        src: books[index - currentPageCount].Cover,
+        name: books[index - currentPageCount].Name,
+        position: 'Row' + books[index - currentPageCount].Row + ' Column ' + books[index - currentPageCount].ColumnIndex
+      })
+    }
+
+    currentPageCount += books.length
+    that.setData({
+      showEmptyView: false,
+      array: homeBooks,
+      resultList: searchBooks,
+    })
+    wx.hideLoading()
+  })
+}
+
+function getBooks(startIndex, hold) {
+  wx.getStorage({
+    key: 'account',
+    success: function(res) {
+      const openid = res.data.openid
+      requestFromServer()
+      // 如此设立是为了方便失败回调
+      function requestFromServer() {
+        wx.request({
+          url: Api.getBooks,
+          data: {
+            openid: openid,
+            startIndex: startIndex
+          },
+          success: (result) => {
+            if (typeof hold === 'function') hold(result.data)
+          },
+          fail: () => Utils.retry(requestFromServer)
+        })
+      }
+    },
+    fail: () => {
+      wx.removeStorage({
+        key: 'account',
+        success: function(res) {
+          wx.redirectTo({ url: '../index/index' })
+          wx.showModal({
+            title: '用户信息过期',
+            content: '本地记录的用户信息过期请重新登录',
+          })
+        }
+      })
+    }
+  })
+}

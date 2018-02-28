@@ -22,6 +22,12 @@
   scroll-y style = "height: {{ scrollViewHeight }}px" 
   bindscrolltolower = "upper" 
   bindscroll = "scroll">
+    
+    <view class = "emptyView {{showEmptyView?'show':'hide'}}">
+      <image src = '../../sources/images/shelfPlaceholder.jpg'></image>
+      <text>OPPS, You haven't created any book here</text>
+    </view>
+
     <view 
     class = 'child'
     catchtap = "goToDetail"
@@ -35,6 +41,6 @@
   </scroll-view>
 </view>
 
-<editor id = 'editor'></editor>
+<editor id = 'editor' bind:hasBeenCreated = 'hasBeenCreated'></editor>
 <include src = "../../common/searchResult.wxml"/>
 <settings id = 'settings'></settings>
