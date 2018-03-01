@@ -19,7 +19,7 @@ Page({
     showCreateButton: true,
     showCancelButton: false,
     showSettingsView: false,
-    showEmptyView: false
+    showEmptyView: false,
   },
 
   upper: function (e) {
@@ -42,7 +42,6 @@ Page({
       scrollViewHeight: wx.getSystemInfoSync().windowHeight - 130,
       resultHeight: wx.getSystemInfoSync().windowHeight - 130
     })
-
   },
 
   showResult: function() {
@@ -88,6 +87,13 @@ Page({
     // 当页面卸载的时候恢复本页面存储的状态
     isNoMorePage = false
   },
+
+  onShareAppMessage: function () {
+    return {
+      title: '自定义分享标题',
+      desc: '自定义分享描述',
+    }
+   },
 
   hasBeenCreated: function() {
     refreshPage(this)

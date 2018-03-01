@@ -35,4 +35,25 @@ export class Utils {
       console.log(retryTimes + 'retry')
     }, 2000)
   }
+
+  static getUserInfo(hold) {
+    wx.getStorage({
+      key: 'account',
+      success: function(res) {
+        if (typeof hold === 'function') hold(res.data)
+      },
+      fail: () => {
+        wx.removeStorage({
+          key: 'account',
+          success: function (res) {
+            wx.redirectTo({ url: '../index/index' })
+            wx.showModal({
+              title: '登录信息过期',
+              content: '本地存储的数据过期请重新登录'
+            })
+          }
+        })
+      }
+    })
+  }
 }

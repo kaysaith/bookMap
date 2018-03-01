@@ -21,6 +21,7 @@
   <scroll-view 
   scroll-y style = "height: {{ scrollViewHeight }}px" 
   bindscrolltolower = "upper" 
+  scroll-into-view = "{{ toView }}"
   bindscroll = "scroll">
     
     <view class = "emptyView {{showEmptyView?'show':'hide'}}">

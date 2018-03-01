@@ -1,5 +1,6 @@
 <!--common/settings/settings.wxml-->
-<view class = "settings {{ showSettingsView?'showWithAnimation':'hide'}}">
+<view class = "mask {{ showSettingsView?'showWithAnimation':'hide'}}">
+<view class = "settings">
   <view class = 'navi'>
     <text class = 'title'>Settings</text>
     <text class = 'closeButton' catchtap = 'switchSettings'>关闭</text>
@@ -7,4 +8,5 @@
 
   <label catchtap = 'goToFamilyMemberDetail'> 管理家庭成员</label>
   <label catchtap = 'logOut'> 登出当前账号</label>
+</view>
 </view>

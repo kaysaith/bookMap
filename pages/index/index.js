@@ -70,7 +70,7 @@ function getTokenAndUpdateUserInfo(code, callback) {
         avatarUrl: info.avatarUrl
       },
       success: (result) => {
-        // result.data 返回的是 `openid` 和 `token`
+        // result.data 返回的是 `openid`、`token` 和 'shelfID'
         if(setHasLogged(result.data)) {
           if (typeof callback === 'function') callback()
           wx.hideLoading()

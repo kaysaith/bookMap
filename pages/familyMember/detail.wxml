@@ -4,7 +4,7 @@
     wx:for = "{{ array }}"
     wx:key = "{{ index }}"
     class='member'>
-    {{ item.name }}
+    {{ item.Nick }}
     <button catchtap = 'deleteMember'>删除</button>
     </view>
 </scroll-view>
@@ -14,7 +14,7 @@
 <view class = "mask {{showOverlay?'show':'hide'}}">
   <view class = 'inputOverlayView'>
     <text>添加成员</text>
-    <input placeholder = '输入对方的微信ID'></input>
+    <input placeholder = '输入对方的微信ID' bindinput = 'getUserID'></input>
     <button class = 'confirmButton button' catchtap = 'confirm'>确认</button>
     <button class = 'cancelButton button' catchtap = 'cancel'>取消</button>
   </view>

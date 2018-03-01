@@ -1,16 +1,17 @@
 // pages/familyMember/detail.js
 
-let members = [
-  { name: 'Jeans Carry'},
-  { name: 'Rong Xiao'},
-  { name: 'James Blunt'}
-]
+import { Utils } from '../../common/component'
+import { Api } from '../../common/api'
+
+let members = []
+
+let info = {
+  memberID: '',
+  selfOpenID: ''
+}
 
 Page({
-
-  /**
-   * 页面的初始数据
-   */
+  
   data: {
     showOverlay: false
   },
@@ -19,8 +20,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      array: members,
+    var that = this
+    getMemberList((userInfoList) => {
+      userInfoList.forEach(it => {
+        members.push(it)
+      })
+      that.setData({
+        array: members,
+      })
     })
   },
 
@@ -30,10 +37,15 @@ Page({
     })
   },
 
+  getUserID: function(content) {
+    info.memberID = content.detail.value
+  },
+
   confirm: function() {
     this.setData({
       showOverlay: !this.data.showOverlay
     })
+    addFamilyMember()
   },
 
   cancel: function() {
@@ -98,3 +110,42 @@ Page({
   
   }
 })
+
+function addFamilyMember() {
+  wx.showLoading({ title: '正在创建' })
+  Utils.getUserInfo((result) => {
+    info.selfOpenID = result.openid
+    wx.request({
+      url: Api.addMember,
+      data: {
+        shelfID: result.shelfID,
+        memberID: info.memberID
+      },
+      success: (response) =>  wx.hideLoading(),
+      fail: () => {
+        wx.hideLoading()
+        wx.showToast({ title: '创建失败' })
+      }
+    })
+  })
+}
+
+function getMemberList(hold) {
+  wx.showLoading({ title: '正在获取列表' })
+  Utils.getUserInfo((userInfo) => {
+    wx.request({
+      url: Api.getMemberList,
+      data: {
+        shelfID: userInfo.shelfID
+      },
+      success: (result) => {
+        wx.hideLoading()
+        hold(result.data)
+      },
+      fail: () => {
+        wx.hideLoading()
+        wx.showToast({ title: '加载列表失败' })
+      }
+    })
+  })
+}
