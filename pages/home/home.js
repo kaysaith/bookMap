@@ -35,7 +35,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    
     flipPage(this)
     
     this.setData({
@@ -61,8 +61,9 @@ Page({
   },
 
   goToDetail: (event) => {
+    const data = JSON.stringify(homeBooks[event.currentTarget.dataset.index])
     wx.navigateTo({
-        url: '../detail/detail?pageInfo=' + JSON.stringify(searchBooks[event.currentTarget.dataset.index])
+      url: '../detail/detail?pageInfo=' + data
     })
   },
 

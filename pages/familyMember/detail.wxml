@@ -5,7 +5,9 @@
     wx:key = "{{ index }}"
     class='member'>
     {{ item.Nick }}
-    <button catchtap = 'deleteMember'>删除</button>
+    <button 
+      catchtap = 'deleteMember' 
+      id = "{{ item.OpenID }}">删除</button>
     </view>
 </scroll-view>
 
