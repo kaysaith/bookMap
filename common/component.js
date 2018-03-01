@@ -68,10 +68,6 @@ export class Utils {
   }
 
   static bookModel(data) {
-    let tag = data.tag 
-    if (typeof data.tag !== 'undefine') {
-      tag = ''
-    }
     return {
       src: data.Cover,
       name: data.Name,
@@ -79,7 +75,7 @@ export class Utils {
       row: data.Row,
       column: data.ColumnIndex,
       id: data.ID,
-      tag: tag
+      tag: data.Tag 
     }
   }
 }
