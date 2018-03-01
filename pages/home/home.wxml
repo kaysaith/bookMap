@@ -22,7 +22,8 @@
   scroll-y style = "height: {{ scrollViewHeight }}px" 
   bindscrolltolower = "upper" 
   scroll-into-view = "{{ toView }}"
-  bindscroll = "scroll">
+  bindscroll = "scroll"
+  enable-back-to-top = 'true'>
     
     <view class = "emptyView {{showEmptyView?'show':'hide'}}">
       <image src = '../../sources/images/shelfPlaceholder.jpg'></image>
@@ -42,6 +43,8 @@
   </scroll-view>
 </view>
 
-<editor id = 'editor' bind:hasBeenCreated = 'hasBeenCreated'></editor>
+<editor 
+  id = 'editor' 
+  bind:hasBeenCreated = 'hasBeenCreated'></editor>
 <include src = "../../common/searchResult.wxml"/>
 <settings id = 'settings'></settings>

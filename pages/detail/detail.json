@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "Detail"
+  "navigationBarTitleText": "Detail",
+  "usingComponents": {
+    "editor": "../../common/editor/editor"
+  }
 }

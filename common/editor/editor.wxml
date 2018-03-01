@@ -1,43 +1,46 @@
 <!-- Overlay View -->
-<view class="overlay {{ showView?'showWithAnimation':'hide' }}">
-  <view class='navi'>
-    <text 
-      class='addCoverButton' 
-      catchtap = 'chooseCover'>{{ hasUploaded?'已添加':'添加封面' }}</text>
-    <text class='title'>Create Book</text>
-    <text class='closeButton' catchtap = 'switchOverlay'>关闭</text>
-  </view>
-  <view class='form'>
-    <text>书名</text>
-    <view class = 'input'>
+<view class = "mask {{ showView?'show':'hide'}}">
+  <view class="overlay {{ showView?'showWithAnimation':'hide'}}">
+    <view class='navi'>
+      <text 
+        class='addCoverButton' 
+        catchtap = 'chooseCover'>{{ hasUploaded?'已添加':'添加封面' }}</text>
+      <text class='title'>Create Book</text>
+      <text class='closeButton' catchtap = 'switchOverlay'>关闭</text>
+    </view>
+    <view class='form'>
+      <text>书名</text>
+      <view class = 'input'>
+        <input 
+          placeholder='录入书的名字' 
+          bindinput='getBookName'
+          value="{{ bookNameInput }}"></input>
+      </view>
+      <text>标签</text>
+      <view class = 'input'>
       <input 
-        placeholder='录入书的名字' 
-        bindinput='getBookName'
-        value="{{ infoInput }}"></input>
+        placeholder='录入书的标签' 
+        bindinput='getBookTag'
+        value="{{ bookTagInput }}"></input>
+      </view>
+      <view class='position'>
+        <text>column</text>
+        <input 
+          placeholder = '0' 
+          type = 'number' 
+          bindinput='getColumnIndex'
+          value="{{ columnInput }}"></input>
+      </view>
+      <view class='position right'>
+        <text>row</text>
+        <input 
+          placeholder = '0' 
+          type = 'number' 
+          bindinput='getRowIndex'
+          value="{{ rowInput }}"></input>
+      </view>
+      <button catchtap = 'createBook' class = "{{ isEditor?'hide':'show' }}">CREATE</button>
+      <button catchtap = 'modifyBook' class = "{{ isEditor?'show':'hide' }}">Modify</button>
     </view>
-    <text>标签</text>
-    <view class = 'input'>
-    <input 
-      placeholder='录入书的标签' 
-      bindinput='getBookTag'
-      value="{{ infoInput }}"></input>
-    </view>
-    <view class='position'>
-      <text>column</text>
-      <input 
-        placeholder = '0' 
-        type = 'number' 
-        bindinput='getColumnIndex'
-        value="{{ infoInput }}"></input>
-    </view>
-    <view class='position right'>
-      <text>row</text>
-      <input 
-        placeholder = '0' 
-        type = 'number' 
-        bindinput='getRowIndex'
-        value="{{ infoInput }}"></input>
-    </view>
-    <button catchtap = 'createBook'>CREATE</button>
   </view>
 </view>

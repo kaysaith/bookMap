@@ -94,10 +94,10 @@ scroll-view .bookID {
 
 scroll-view .child {
   background-color: #f1f1f1;
-  width: calc((100% - 60px) / 2);
-  height: 65vw;
+  width: calc((100% - 55px) / 2);
+  height: 66vw;
   float: left;
-  margin: 0 0px 40px 20px;
+  margin: 0 -5px 40px 20px;
   color: white;
 }
 
