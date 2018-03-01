@@ -66,4 +66,20 @@ export class Utils {
     }
     return targetIndex
   }
+
+  static bookModel(data) {
+    let tag = data.tag 
+    if (typeof data.tag !== 'undefine') {
+      tag = ''
+    }
+    return {
+      src: data.Cover,
+      name: data.Name,
+      position: ' Row ' + data.Row + ' Column ' + data.ColumnIndex,
+      row: data.Row,
+      column: data.ColumnIndex,
+      id: data.ID,
+      tag: tag
+    }
+  }
 }

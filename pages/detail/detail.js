@@ -1,72 +1,82 @@
 // pages/detail/detail.js
+
+import { Api } from '../../common/api'
+import { Utils } from '../../common/component'
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-  
+    info: {},
+    scrollViewHeight: 0,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    var info = JSON.parse(options.pageInfo)
-    wx.setNavigationBarTitle({ title: info.name })
-
+  onLoad: function (options) {    
+    this.data.info = JSON.parse(options.pageInfo)
+    wx.setNavigationBarTitle({ title: this.data.info.name })
     this.setData({ 
-      bookCover: info.src,
-      position: info.position
+      scrollViewHeight: wx.getSystemInfoSync().windowHeight,
+      bookCover: this.data.info.src,
+      position: this.data.info.position
     })
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
+  modify: function() {
+    this.editor.switchOverlay({
+      info: this.data.info, 
+      isEditor: true
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
+  onReady: function() {
+    this.editor = this.selectComponent("#editor")
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
   
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
+  hasBeenCreated: function() {
+    
+    getThisBookInfo(this, (info) => {
+      
+      const that = this
+      const pages = getCurrentPages();
+      const currPage = pages[pages.length - 1];   // 当前页面
+      const prevPage = pages[pages.length - 2];  // 上一个页面
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
+      const newData = prevPage.data.array.map((it) => {
+        if (it.id == info.id) it = info
+        return it
+      })
+      // 直接调用上一个页面的setData()方法，把数据存到上一个页面中并更新上一个页面的界面
+      prevPage.setData({ array: newData })
+    })
   }
 })
+
+function getThisBookInfo(that, callback) {
+  wx.request({
+    url: Api.updateTargetBookInfo,
+    data: {
+      bookID: that.data.info.id
+    },
+    success: (result) => {
+      that.setData({
+        bookCover: result.data.Cover,
+        position: 'Row ' + result.data.Row + ' Column ' + result.data.ColumnIndex
+      })
+
+      that.data.info = Utils.bookModel(result.data)
+      wx.setNavigationBarTitle({ title: that.data.info.name })
+
+      if (typeof callback === 'function') callback(that.data.info)
+    }
+  })
+}
+

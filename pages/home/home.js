@@ -3,14 +3,7 @@
 import { Api } from '../../common/api'
 import { Utils } from '../../common/component'
 
-const homeBooks = []
-const searchBooks = []
-
 Page({
-
-  /**
-   * 页面的初始数据
-   */
 
   data: {
     showSearchResult: false,
@@ -20,6 +13,8 @@ Page({
     showCancelButton: false,
     showSettingsView: false,
     showEmptyView: false,
+
+    homeBooks: []
   },
 
   upper: function (e) {
@@ -31,11 +26,8 @@ Page({
     console.log('scroll')
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-    
+
     flipPage(this)
     
     this.setData({
@@ -60,8 +52,8 @@ Page({
     })
   },
 
-  goToDetail: (event) => {
-    const data = JSON.stringify(homeBooks[event.currentTarget.dataset.index])
+  goToDetail: function(event) {
+    const data = JSON.stringify(this.data.homeBooks[event.currentTarget.dataset.index])
     wx.navigateTo({
       url: '../detail/detail?pageInfo=' + data
     })
@@ -108,8 +100,7 @@ const singlePageCount = 10
 function refreshPage(that) {
   currentPageCount = 0
   isNoMorePage = false
-  homeBooks.splice(0, homeBooks.length)
-  searchBooks.splice(0, searchBooks.length)
+  that.data.homeBooks.splice(0, that.data.homeBooks.length)
   flipPage(that)
 }
 
@@ -128,23 +119,22 @@ function flipPage(that) {
 
     let maxCount = books.length < singlePageCount ? books.length : singlePageCount
     for (let index = currentPageCount; index < currentPageCount + maxCount; index++) {
-      homeBooks.push({
+      that.data.homeBooks.push({
+        id: books[index - currentPageCount].ID,
         src: books[index - currentPageCount].Cover,
         name: books[index - currentPageCount].Name,
-        id: books[index - currentPageCount].ID
-      })
-      searchBooks.push({
-        src: books[index - currentPageCount].Cover,
-        name: books[index - currentPageCount].Name,
-        position: 'Row ' + books[index - currentPageCount].Row + ' Column ' + books[index - currentPageCount].ColumnIndex
+        position: 'Row ' + books[index - currentPageCount].Row + ' Column ' + books[index - currentPageCount].ColumnIndex,
+        row: books[index - currentPageCount].Row,
+        column: books[index - currentPageCount].ColumnIndex,
+        tag: books[index - currentPageCount].Tag
       })
     }
 
     currentPageCount += books.length
     that.setData({
       showEmptyView: false,
-      array: homeBooks,
-      resultList: searchBooks,
+      array: that.data.homeBooks,
+      resultList: that.data.homeBooks,
     })
     wx.hideLoading()
   })
@@ -154,14 +144,13 @@ function getBooks(startIndex, hold) {
   wx.getStorage({
     key: 'account',
     success: function(res) {
-      const openid = res.data.openid
       requestFromServer()
       // 如此设立是为了方便失败回调
       function requestFromServer() {
         wx.request({
           url: Api.getBooks,
           data: {
-            openid: openid,
+            shelfID: res.data.shelfID,
             startIndex: startIndex
           },
           success: (result) => {

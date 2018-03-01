@@ -14,5 +14,7 @@ export const Api = {
   getBooks: header + '/getBooks',
   addMember: header + '/addMember',
   getMemberList: header + '/getMemberList',
-  deleteMember: header + '/deleteMember'
+  deleteMember: header + '/deleteMember',
+  modifyBookInfo: header + '/modifyBookInfo',
+  updateTargetBookInfo: header + '/updateTargetBookInfo'
 }

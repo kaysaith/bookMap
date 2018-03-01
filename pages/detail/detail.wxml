@@ -1,12 +1,18 @@
 <!--pages/detail/detail.wxml-->
-<scroll-view>
-  <view class = 'cover'>
-    <image 
-    mode = 'aspectFill'
-    src = '{{ bookCover }}'>
-    </image>
-  </view>
 
+<view class = 'cover'>
+  <image 
+  mode = 'aspectFill'
+  src = '{{ bookCover }}'>
+  </image>
+</view>
+
+<button class = 'modify' catchtap = 'modify'>编辑图书</button>
+
+<scroll-view 
+  class = 'scrollView'
+  enable-back-to-top = 'true'
+  scroll-y style = "height: {{ scrollViewHeight }}px;">
   <view class = 'content'>
     <text>存放位置</text>
     <view class = 'border'></view>
@@ -18,3 +24,5 @@
     <view class='tag'>意识流</view>
   </view>
 </scroll-view>
+
+<editor id = 'editor' bind:hasBeenCreated = 'hasBeenCreated'></editor>
