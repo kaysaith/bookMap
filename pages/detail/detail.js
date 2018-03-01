@@ -55,7 +55,7 @@ Page({
         return it
       })
       // 直接调用上一个页面的setData()方法，把数据存到上一个页面中并更新上一个页面的界面
-      prevPage.setData({ array: newData })
+      prevPage.setData({ homeBooks: newData })
     })
   }
 })

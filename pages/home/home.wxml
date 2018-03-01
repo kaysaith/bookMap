@@ -33,7 +33,7 @@
     <view 
     class = 'child'
     catchtap = "goToDetail"
-    wx:for = "{{array}}"
+    wx:for = "{{ homeBooks }}"
     data-index = "{{ index }}"
     wx:key = "{{ index }}">
       <label class='bookID'># {{item.id}}</label>

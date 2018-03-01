@@ -111,7 +111,7 @@ function flipPage(that) {
     // 如果已经拉不到整页的数据意味当下已经拉完了服务器的数据
     if (books.length < singlePageCount) isNoMorePage = true
     // 如果没有拉取导数据执行占位图提前跳出这个方法
-    if (books.length === 0 && homeBooks.length === 0) { 
+    if (books.length === 0 && that.data.homeBooks.length === 0) { 
       that.setData({ showEmptyView: true })
       wx.hideLoading()
       return
@@ -133,7 +133,7 @@ function flipPage(that) {
     currentPageCount += books.length
     that.setData({
       showEmptyView: false,
-      array: that.data.homeBooks,
+      homeBooks: that.data.homeBooks,
       resultList: that.data.homeBooks,
     })
     wx.hideLoading()
