@@ -56,4 +56,14 @@ export class Utils {
       }
     })
   }
+
+  static getIndexOfArray(array, value) {
+    let targetIndex
+    for (var index = 0; index < array.length; index++) {
+      if(array[index] == value) {
+        targetIndex = index
+      }
+    }
+    return targetIndex
+  }
 }

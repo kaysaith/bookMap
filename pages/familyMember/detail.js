@@ -11,24 +11,14 @@ let info = {
 }
 
 Page({
-  
+
   data: {
+    array: [],
     showOverlay: false
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-    var that = this
-    getMemberList((userInfoList) => {
-      userInfoList.forEach(it => {
-        members.push(it)
-      })
-      that.setData({
-        array: members,
-      })
-    })
+    getMemberList(this)
   },
 
   addMember: function() {
@@ -42,10 +32,11 @@ Page({
   },
 
   confirm: function() {
+    var that = this
     this.setData({
       showOverlay: !this.data.showOverlay
     })
-    addFamilyMember()
+    addFamilyMember(() => getMemberList(that))
   },
 
   cancel: function() {
@@ -54,64 +45,35 @@ Page({
     })
   },
 
-  deleteMember: function() {
+  deleteMember: function(event) {
+    let that = this
+    const currentOpenID = event.target.id
     wx.showModal({
       title: '删除成员',
       content: '你确认要删除这位成员么?',
+      success: (result) => {
+        if (result.confirm) {
+          deleteMemberFromList(currentOpenID, () => {
+            let targetIndex
+            for (var index = 0; index < members.length; index++) {
+              if (members[index].OpenID == currentOpenID) {
+                targetIndex = index
+              }
+            }
+            members.splice(targetIndex, 1)
+            that.setData({ array: members })
+          })
+        }
+      }
     })
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
-  
+    // 页面卸载的时候初始化数组内容
+    members.splice(0, members.length)
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
-  }
 })
 
-function addFamilyMember() {
+function addFamilyMember(callback) {
   wx.showLoading({ title: '正在创建' })
   Utils.getUserInfo((result) => {
     info.selfOpenID = result.openid
@@ -121,7 +83,10 @@ function addFamilyMember() {
         shelfID: result.shelfID,
         memberID: info.memberID
       },
-      success: (response) =>  wx.hideLoading(),
+      success: (response) =>  {
+        wx.hideLoading()
+        if (typeof callback === 'function') callback()
+      },
       fail: () => {
         wx.hideLoading()
         wx.showToast({ title: '创建失败' })
@@ -130,7 +95,7 @@ function addFamilyMember() {
   })
 }
 
-function getMemberList(hold) {
+function getMemberList(that) {
   wx.showLoading({ title: '正在获取列表' })
   Utils.getUserInfo((userInfo) => {
     wx.request({
@@ -140,12 +105,28 @@ function getMemberList(hold) {
       },
       success: (result) => {
         wx.hideLoading()
-        hold(result.data)
+        members.splice(0, members.length)
+        result.data.forEach(it => { members.push(it) })
+        that.setData({ array: members })
       },
       fail: () => {
         wx.hideLoading()
         wx.showToast({ title: '加载列表失败' })
       }
     })
+  })
+}
+
+function deleteMemberFromList(openID, callback) {
+  wx.showLoading({ title: '正在删除' })
+  wx.request({
+    url: Api.deleteMember,
+    data: {
+      openid: openID
+    },
+    success: () => {
+      wx.hideLoading()
+      if (typeof callback === 'function') callback()
+    }
   })
 }
