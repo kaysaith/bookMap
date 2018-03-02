@@ -50,7 +50,7 @@ Page({
       const currPage = pages[pages.length - 1];   // 当前页面
       const prevPage = pages[pages.length - 2];  // 上一个页面
 
-      const newData = prevPage.data.array.map((it) => {
+      const newData = prevPage.data.homeBooks.map((it) => {
         if (it.id == info.id) it = info
         return it
       })
