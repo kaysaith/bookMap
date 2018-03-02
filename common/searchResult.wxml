@@ -12,9 +12,9 @@
     mode = 'aspectFill'
     src='{{ item.src }}'></image>
     <view class = 'info'>
-      <text>Can't help falling in love with you</text>
+      <text>{{ item.name }}</text>
       <view class = 'border'></view>
-      <text>column 3 row 4</text>
+      <text>{{ item.position }}</text>
     </view>
   </view>
 </scroll-view>
