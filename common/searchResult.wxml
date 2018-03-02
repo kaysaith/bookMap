@@ -6,7 +6,8 @@
     class='item'
     wx:for = "{{ resultList }}"
     data-index = "{{ index }}"
-    catchtap = 'goToDetail'
+    data-index = "{{ index }}"
+    catchtap = 'goToDetailFromSearchResult'
     wx:key = "{{ index }}">
     <image 
     mode = 'aspectFill'
