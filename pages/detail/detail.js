@@ -58,7 +58,7 @@ Page({
       const prevPage = pages[pages.length - 2];  // 上一个页面
 
       const newData = prevPage.data.homeBooks.map((it) => {
-        if (it.id == info.id) it = info
+        if (it.id === info.id) it = info
         return it
       })
       // 直接调用上一个页面的setData()方法，把数据存到上一个页面中并更新上一个页面的界面

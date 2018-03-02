@@ -11,8 +11,6 @@ const bookInfo = {
   bookID: 0
 }
 
-const existBookInfo = {}
-
 // common/editor/editor.js
 Component({
   options: {
@@ -45,7 +43,7 @@ Component({
     // 显示悬浮曾的开关
     switchOverlay: function (params = { info: Object, isEditor: Boolean }) {
       // 通过父级调用自定义组件这个方法进行传值
-      if (params.isEditor === true) {
+      if (params.isEditor) {
         // 在编辑模式下更新 `UI` 显示的内容
         this.setData({
           isEditor: true,
@@ -64,7 +62,11 @@ Component({
       }
       this.setData({ showView: !this.data.showView })
       // 悬浮曾关闭后恢复初始值
-      if (this.data.showView === false) this.setData({ hasUploaded: false })
+      if (!this.data.showView) { 
+        this.setData({ hasUploaded: false })
+        // 关闭后清空对象
+        if (Object.keys(bookInfo).length > 0) Utils.emptyObject(bookInfo)
+      }
     },
     getBookName: function(content) {
       bookInfo.name = content.detail.value
@@ -196,3 +198,4 @@ function updateInfo(params = { page, cover, isEditor }) {
     }
   })
 }
+

@@ -32,7 +32,7 @@ Page({
   },
 
   confirm: function() {
-    var that = this
+    const that = this
     this.setData({
       showOverlay: !this.data.showOverlay
     })
@@ -55,8 +55,8 @@ Page({
         if (result.confirm) {
           deleteMemberFromList(currentOpenID, () => {
             let targetIndex
-            for (var index = 0; index < members.length; index++) {
-              if (members[index].OpenID == currentOpenID) {
+            for (let index = 0; index < members.length; index++) {
+              if (members[index].OpenID === currentOpenID) {
                 targetIndex = index
               }
             }
