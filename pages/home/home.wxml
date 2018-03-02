@@ -9,7 +9,11 @@
         class = "cancelButton {{ showCancelButton?'show':'hide' }}"
         catchtap = 'cancelSearch'>取消</label>
       <view class='search'>
-        <input placeholder = "搜索书名" bindfocus = 'showResult'/>
+        <input 
+          placeholder = "搜索书名" 
+          bindfocus = 'showResult' 
+          bindinput = 'getKeyword'
+          bindconfirm = 'search'/>
       </view>
     </view>
     <text class = 'left'>全部图书</text>

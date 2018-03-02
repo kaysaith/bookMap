@@ -14,7 +14,9 @@ Page({
     showSettingsView: false,
     showEmptyView: false,
 
-    homeBooks: []
+    homeBooks: [],
+    searchKeyword: '',
+    resultList: []
   },
 
   upper: function (e) {
@@ -88,10 +90,41 @@ Page({
     }
    },
 
+  // 获取搜索关键词
+  getKeyword: function (content) {
+    this.data.searchKeyword = content.detail.value
+  },
+
+  search: function () {
+    getSearchedResult(this)
+  },
+
   hasBeenCreated: function() {
     refreshPage(this)
   }
 })
+
+// 执行搜索并获取结果的数组对象
+function getSearchedResult(that) {
+  Utils.getUserInfo((userInfo) => {
+    wx.request({
+      url: Api.searchBook,
+      data: {
+        keyword: that.data.searchKeyword,
+        shelfID: userInfo.shelfID
+      },
+      success: (result) => {
+        const searchResult = result.data.map((it) => {
+          return Utils.bookModel(it)
+        })
+
+        that.setData({
+          resultList: searchResult
+        })
+      }
+    })
+  })
+}
 
 let currentPageCount = 0
 let isNoMorePage = false
@@ -117,24 +150,23 @@ function flipPage(that) {
       return
     }
 
-    let maxCount = books.length < singlePageCount ? books.length : singlePageCount
-    for (let index = currentPageCount; index < currentPageCount + maxCount; index++) {
-      that.data.homeBooks.push({
-        id: books[index - currentPageCount].ID,
-        src: books[index - currentPageCount].Cover,
-        name: books[index - currentPageCount].Name,
-        position: 'Row ' + books[index - currentPageCount].Row + ' Column ' + books[index - currentPageCount].ColumnIndex,
-        row: books[index - currentPageCount].Row,
-        column: books[index - currentPageCount].ColumnIndex,
-        tag: books[index - currentPageCount].Tag
-      })
+    let maxCount = books.length < singlePageCount 
+    ? books.length 
+    : singlePageCount
+    
+    for (
+      let index = currentPageCount; 
+      index < currentPageCount + maxCount; 
+      index++
+    ) {
+      that.data.homeBooks
+        .push(Utils.bookModel(books[index - currentPageCount]))
     }
 
     currentPageCount += books.length
     that.setData({
       showEmptyView: false,
       homeBooks: that.data.homeBooks,
-      resultList: that.data.homeBooks,
     })
     wx.hideLoading()
   })
