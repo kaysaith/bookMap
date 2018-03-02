@@ -11,7 +11,7 @@
       <view class='search'>
         <input 
           placeholder = "搜索书名" 
-          value='{{ defaultSearchInputValue }}'
+          value = '{{ defaultSearchInputValue }}'
           bindfocus = 'showResult' 
           bindinput = 'getKeyword'
           bindconfirm = 'search'/>

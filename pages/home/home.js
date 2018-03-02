@@ -62,6 +62,11 @@ Page({
     wx.navigateTo({ url: '../detail/detail?pageInfo=' + data })
   },
 
+  goToDetailFromSearchResult: function (event) {
+    const data = JSON.stringify(this.data.resultList[event.currentTarget.dataset.index])
+    wx.navigateTo({ url: '../detail/detail?pageInfo=' + data })
+  },
+
   showSettings: function() {
     this.settings.switchSettings()
   },
