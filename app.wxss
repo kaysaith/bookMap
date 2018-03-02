@@ -64,3 +64,21 @@
   margin: 10px 0 10px 15px;
   float: left;
 }
+
+/*—————— 占位图 ——————*/
+
+.emptyView image {
+  margin-top: calc((100vh - 60vw) / 2 - 120px);
+  width: 60%;
+  height: 60vw;
+  margin-left: 20%;
+}
+
+.emptyView text {
+  font-size: 14px;
+  color: #ccc;
+  font-weight: 300;
+  width: 100%;
+  float: left;
+  text-align: center;
+}

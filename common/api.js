@@ -2,7 +2,7 @@
  * Api Address
  */
 
-const isDebugMode = true
+const isDebugMode = false
 
 const header = !isDebugMode ? 'http://52.197.16.251:8888' : 'http://127.0.0.1:8888'
 
