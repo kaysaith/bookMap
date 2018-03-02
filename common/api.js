@@ -2,7 +2,7 @@
  * Api Address
  */
 
-const isDebug = false
+const isDebug = true
 
 const header = 
   isDebug == false ? 'http://52.197.16.251:8888' : 'http://127.0.0.1:8888'
@@ -17,4 +17,4 @@ export const Api = {
   deleteMember: header + '/deleteMember',
   modifyBookInfo: header + '/modifyBookInfo',
   updateTargetBookInfo: header + '/updateTargetBookInfo'
-}
+} 
