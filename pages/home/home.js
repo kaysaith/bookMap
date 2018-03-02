@@ -55,10 +55,8 @@ Page({
   },
 
   goToDetail: function(event) {
-    const data = JSON.stringify(this.data.homeBooks[event.currentTarget.dataset.index])
-    wx.navigateTo({
-      url: '../detail/detail?pageInfo=' + data
-    })
+    const data = JSON.stringify(this.data.homeBooks [event.currentTarget.dataset.index])
+    wx.navigateTo({ url: '../detail/detail?pageInfo=' + data })
   },
 
   showSettings: function() {
@@ -106,6 +104,7 @@ Page({
 
 // 执行搜索并获取结果的数组对象
 function getSearchedResult(that) {
+  wx.showLoading({ title: '正在搜索' })
   Utils.getUserInfo((userInfo) => {
     wx.request({
       url: Api.searchBook,
@@ -114,13 +113,17 @@ function getSearchedResult(that) {
         shelfID: userInfo.shelfID
       },
       success: (result) => {
+        // 把网络数据转换成本地 `Model`
         const searchResult = result.data.map((it) => {
           return Utils.bookModel(it)
         })
-
-        that.setData({
-          resultList: searchResult
-        })
+        // 更新UI
+        that.setData({  resultList: searchResult })
+        wx.hideLoading()
+      },
+      fail: () => {
+        wx.hideLoading()
+        wx.showToast({ title: '搜索失败' })
       }
     })
   })
