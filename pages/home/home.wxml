@@ -11,6 +11,7 @@
       <view class='search'>
         <input 
           placeholder = "搜索书名" 
+          value='{{ defaultSearchInputValue }}'
           bindfocus = 'showResult' 
           bindinput = 'getKeyword'
           bindconfirm = 'search'/>
@@ -35,11 +36,11 @@
     </view>
 
     <view 
-    class = 'child'
-    catchtap = "goToDetail"
-    wx:for = "{{ homeBooks }}"
-    data-index = "{{ index }}"
-    wx:key = "{{ index }}">
+      class = 'child'
+      catchtap = "goToDetail"
+      wx:for = "{{ homeBooks }}"
+      data-index = "{{ index }}"
+      wx:key = "{{ index }}">
       <label class='bookID'># {{item.id}}</label>
       <image mode = 'aspectFill' src="{{ item.src }}"></image>
       <text>{{item.name}}</text>

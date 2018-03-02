@@ -16,7 +16,8 @@ Page({
 
     homeBooks: [],
     searchKeyword: '',
-    resultList: []
+    resultList: [],
+    defaultSearchInputValue: ''
   },
 
   upper: function (e) {
@@ -50,7 +51,9 @@ Page({
     this.setData({
       showCancelButton: false,
       showCreateButton: true,
-      showSearchResult: false
+      showSearchResult: false,
+      showEmptyView: false,
+      defaultSearchInputValue: ""
     })
   },
 
@@ -113,6 +116,13 @@ function getSearchedResult(that) {
         shelfID: userInfo.shelfID
       },
       success: (result) => {
+
+        // 如果没有搜索结果设置状态后提前退出
+        if (result.data.length == 0) {
+          that.setData({ showEmptyView: true })
+          wx.hideLoading()
+          return
+        }
         // 把网络数据转换成本地 `Model`
         const searchResult = result.data.map((it) => {
           return Utils.bookModel(it)

@@ -17,4 +17,9 @@
       <text>{{ item.position }}</text>
     </view>
   </view>
+
+  <view class = "emptyView {{showEmptyView?'show':'hide'}}">
+      <image src = '../../sources/images/shelfPlaceholder.jpg'></image>
+      <text>OPPS, You haven't created any book here</text>
+  </view>
 </scroll-view>
