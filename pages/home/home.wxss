@@ -3,6 +3,7 @@
   width: calc(100% - 40px);
   position: fixed;
   padding: 0 20px; 
+  top: 0;
 }
 
 .topBar {
@@ -74,8 +75,10 @@
 
 .home scroll-view {
   width: 100%;
-  margin-top: 130px;
+  height: calc(100vh - 130px);
+  top: 130px;
   float: left;
+  position: fixed;
 }
 
 ::-webkit-scrollbar {

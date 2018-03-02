@@ -89,7 +89,7 @@ Component({
       const that = this
       wx.showLoading({ title: '正在创建' })
       // 检查关键数据是否填写
-      if (bookInfo.cover.length * bookInfo.name.length != 0) {
+      if (bookInfo.cover.length * bookInfo.name.length !== 0) {
         // 首先执行耗时的上传封面并获取七牛的网络地址
         wx.uploadFile({
           url: Api.uploadCover,
@@ -102,7 +102,8 @@ Component({
               cover: res.data, 
               isEditor: false
             }) 
-          }
+          },
+          fail: (event) => console.log(JSON.stringify(event))
         })
       } else {
         if (bookInfo.name.length === 0 && bookInfo.cover.length === 0) {
@@ -156,13 +157,11 @@ function chooseImage(callback) {
 }
 
 function updateInfo(params = { page, cover, isEditor }) {
-
   let apiUrl = params.isEditor ? Api.modifyBookInfo : Api.createBook
   
   wx.getStorage({
     key: 'account',
     success: function(res) { 
-
       let apiParameters = {
         name: bookInfo.name,
         cover: params.cover,

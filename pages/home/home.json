@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "Book Map",
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "settings": "../../common/settings/settings",
     "editor": "../../common/editor/editor"

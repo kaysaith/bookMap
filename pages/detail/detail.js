@@ -11,18 +11,21 @@ Page({
   data: {
     info: {},
     scrollViewHeight: 0,
+    tags: [],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {    
+
     this.data.info = JSON.parse(options.pageInfo)
     wx.setNavigationBarTitle({ title: this.data.info.name })
     this.setData({ 
       scrollViewHeight: wx.getSystemInfoSync().windowHeight,
       bookCover: this.data.info.src,
-      position: this.data.info.position
+      position: this.data.info.position,
+      tags: Utils.convertStringByComma(this.data.info.tag)
     })
   },
 
@@ -39,6 +42,10 @@ Page({
 
   onUnload: function () {
   
+  },
+
+  onPullDownRefresh: function () {
+    wx.stopPullDownRefresh()
   },
 
   hasBeenCreated: function() {
@@ -69,7 +76,8 @@ function getThisBookInfo(that, callback) {
     success: (result) => {
       that.setData({
         bookCover: result.data.Cover,
-        position: 'Row ' + result.data.Row + ' Column ' + result.data.ColumnIndex
+        position: 'Row ' + result.data.Row + ' Column ' + result.data.ColumnIndex,
+        tags: Utils.convertStringByComma(result.data.Tag)
       })
 
       that.data.info = Utils.bookModel(result.data)

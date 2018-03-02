@@ -15,9 +15,17 @@ Page({
     showEmptyView: false,
 
     homeBooks: [],
+    isNoMorePage: false,
     searchKeyword: '',
     resultList: [],
-    defaultSearchInputValue: ''
+    defaultSearchInputValue: '',
+
+    isPullEvent: false,
+    scrollTopValue: 0,
+
+    loadingDescription: '正在加载图书',
+
+    isLongClick: false
   },
 
   upper: function (e) {
@@ -25,8 +33,30 @@ Page({
     flipPage(this)
   },
 
-  scroll: function() {
-    console.log('scroll')
+
+  /* 
+  * 因为设定了 `Header` 部分禁止滑动, 所以没有办
+  * 法直接使用 `PullDownFresh` 方法, 这里联合判断下拉刷新
+  */
+  scroll: function (event) {
+    if (!this.data.isPullEvent) 
+      this.data.isPullEvent = event.detail.scrollTop < -100 
+  },
+
+  touchEnd: function(event) {
+    if (this.data.isPullEvent) refreshPage(this)
+  },
+
+  longClick: function(event) {
+    this.setData({ isLongClick: true })
+    wx.showModal({
+      title: '删除图书',
+      content: '确定要删除这本书么?',
+      success: (result) => {
+        if (result.confirm) deleteBook(this, event.currentTarget.dataset.id)
+        else if (result.cancel) this.setData({ isLongClick: false })
+      }
+    })
   },
 
   onLoad: function (options) {
@@ -43,7 +73,8 @@ Page({
     this.setData({
       showCancelButton: true,
       showCreateButton: false,
-      showSearchResult: true
+      showSearchResult: true,
+      showEmptyView: this.data.resultList.length === 0
     })
   },
 
@@ -53,11 +84,13 @@ Page({
       showCreateButton: true,
       showSearchResult: false,
       showEmptyView: false,
-      defaultSearchInputValue: ""
+      defaultSearchInputValue: "",
+      resultList: []
     })
   },
 
   goToDetail: function(event) {
+    if (this.data.isLongClick) return
     const data = JSON.stringify(this.data.homeBooks [event.currentTarget.dataset.index])
     wx.navigateTo({ url: '../detail/detail?pageInfo=' + data })
   },
@@ -86,7 +119,7 @@ Page({
 
   onUnload: function () {
     // 当页面卸载的时候恢复本页面存储的状态
-    isNoMorePage = false
+    currentPageCount = 0
   },
 
   onShareAppMessage: function () {
@@ -110,6 +143,14 @@ Page({
   }
 })
 
+function deleteBook(that, bookID) {
+  wx.request({
+    url: Api.deleteBook,
+    data: { bookID: bookID },
+    success: () => refreshPage(that)
+  })
+}
+
 // 执行搜索并获取结果的数组对象
 function getSearchedResult(that) {
   wx.showLoading({ title: '正在搜索' })
@@ -121,7 +162,6 @@ function getSearchedResult(that) {
         shelfID: userInfo.shelfID
       },
       success: (result) => {
-
         // 如果没有搜索结果设置状态后提前退出
         if (result.data.length == 0) {
           that.setData({ showEmptyView: true })
@@ -145,22 +185,29 @@ function getSearchedResult(that) {
 }
 
 let currentPageCount = 0
-let isNoMorePage = false
 const singlePageCount = 10
 
+// 下拉刷新的方法
 function refreshPage(that) {
-  currentPageCount = 0
-  isNoMorePage = false
   that.data.homeBooks.splice(0, that.data.homeBooks.length)
+  that.data.loadingDescription = '正在刷新数据'
+  currentPageCount = 0
   flipPage(that)
+  // 滚动到最顶部
+  that.setData({
+    scrollTopValue: 0,
+    isNoMorePage: false,
+    isPullEvent: false,
+    loadingDescription: '正在加载图书'
+  })
 }
 
 function flipPage(that) {
-  if (isNoMorePage) return // 如果没有更多就不用向下执行了
-  wx.showLoading({ title: '正在加载图书' })
+  if (that.data.isNoMorePage) return // 如果没有更多就不用向下执行了
+  wx.showLoading({ title: that.data.loadingDescription })
   getBooks(currentPageCount, (books) => {
     // 如果已经拉不到整页的数据意味当下已经拉完了服务器的数据
-    if (books.length < singlePageCount) isNoMorePage = true
+    if (books.length < singlePageCount) that.data.isNoMorePage = true
     // 如果没有拉取导数据执行占位图提前跳出这个方法
     if (books.length === 0 && that.data.homeBooks.length === 0) { 
       that.setData({ showEmptyView: true })
@@ -191,35 +238,20 @@ function flipPage(that) {
 }
 
 function getBooks(startIndex, hold) {
-  wx.getStorage({
-    key: 'account',
-    success: function(res) {
-      requestFromServer()
-      // 如此设立是为了方便失败回调
-      function requestFromServer() {
-        wx.request({
-          url: Api.getBooks,
-          data: {
-            shelfID: res.data.shelfID,
-            startIndex: startIndex
-          },
-          success: (result) => {
-            if (typeof hold === 'function') hold(result.data)
-          },
-          fail: () => Utils.retry(requestFromServer)
-        })
-      }
-    },
-    fail: () => {
-      wx.removeStorage({
-        key: 'account',
-        success: function(res) {
-          wx.redirectTo({ url: '../index/index' })
-          wx.showModal({
-            title: '用户信息过期',
-            content: '本地记录的用户信息过期请重新登录',
-          })
-        }
+  Utils.getUserInfo((userInfo) => {
+    requestFromServer()
+    // 如此设立是为了方便失败回调
+    function requestFromServer() {
+      wx.request({
+        url: Api.getBooks,
+        data: {
+          shelfID: userInfo.shelfID,
+          startIndex: startIndex
+        },
+        success: (result) => {
+          if (typeof hold === 'function') hold(result.data)
+        },
+        fail: () => Utils.retry(requestFromServer)
       })
     }
   })

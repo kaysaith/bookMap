@@ -2,9 +2,11 @@
  * Api Address
  */
 
-const isDebugMode = false
+const isDebugMode = true
 
-const header = !isDebugMode ? 'http://52.197.16.251:8888' : 'http://127.0.0.1:8888'
+const header = !isDebugMode 
+  ? 'https://bookmap.naonaola.com:8888' 
+  : 'https://127.0.0.1:8888'
 
 export const Api = {
   uploadCover: header + '/upload',
@@ -16,5 +18,6 @@ export const Api = {
   deleteMember: header + '/deleteMember',
   modifyBookInfo: header + '/modifyBookInfo',
   updateTargetBookInfo: header + '/updateTargetBookInfo',
-  searchBook: header + '/searchBook'
+  searchBook: header + '/searchBook',
+  deleteBook: header + '/deleteBook'
 } 

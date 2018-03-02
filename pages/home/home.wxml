@@ -28,6 +28,9 @@
   bindscrolltolower = "upper" 
   scroll-into-view = "{{ toView }}"
   bindscroll = "scroll"
+  bindtouchend = 'touchEnd'
+  scroll-top = "{{ scrollTopValue }}"
+  scroll-with-animation = true
   enable-back-to-top = 'true'>
     
     <view class = "emptyView {{showEmptyView?'show':'hide'}}">
@@ -40,8 +43,10 @@
       catchtap = "goToDetail"
       wx:for = "{{ homeBooks }}"
       data-index = "{{ index }}"
+      data-id = "{{ homeBooks[index].id }}"
+      catchlongpress = 'longClick'
       wx:key = "{{ index }}">
-      <label class='bookID'># {{item.id}}</label>
+      <label class='bookID'># {{ item.id }}</label>
       <image mode = 'aspectFill' src="{{ item.src }}"></image>
       <text>{{item.name}}</text>
     </view>
