@@ -1,9 +1,12 @@
 /* pages/home/home.wxss */
 .header {
   width: calc(100% - 40px);
+  height: 130px;
   position: fixed;
   padding: 0 20px; 
   top: 0;
+  z-index: 2;
+  background-color: white;
 }
 
 .topBar {
@@ -73,12 +76,11 @@
 
 /*—————— Scroll View ——————*/
 
-.home scroll-view {
+.bookList {
   width: 100%;
-  height: calc(100vh - 130px);
-  top: 130px;
+  height: 100%;
   float: left;
-  position: fixed;
+  padding-top: 130px;
 }
 
 ::-webkit-scrollbar {
@@ -87,7 +89,7 @@
   color: transparent;
 }
 
-scroll-view .bookID {
+.bookList  .bookID {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.75);
   font-size: 14px;
@@ -98,7 +100,7 @@ scroll-view .bookID {
   margin: 10px 0 0 10px;
 }
 
-scroll-view .child {
+.bookList .child {
   background-color: #f1f1f1;
   width: calc((100% - 55px) / 2);
   height: 66vw;

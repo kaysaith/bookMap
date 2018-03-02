@@ -59,8 +59,8 @@ export class Utils {
 
   static getIndexOfArray(array, value) {
     let targetIndex
-    for (var index = 0; index < array.length; index++) {
-      if(array[index] == value) {
+    for (let index = 0; index < array.length; index++) {
+      if(array[index] === value) {
         targetIndex = index
       }
     }
@@ -86,10 +86,10 @@ export class Utils {
     for (let index = 0; index < text.length; index++) {
       value += text[index]
       if (
-        text[index] == ','
-        || text[index] == '，'
-        || index == text.length - 1) {
-          if (index != text.length - 1) 
+        text[index] === ','
+        || text[index] === '，'
+        || index === text.length - 1) {
+          if (index !== text.length - 1)
             // 删除提取出来的最后一个逗号
             valueArray.push(value.split('').splice(0, value.length - 1).join(''))
           else 
@@ -100,9 +100,9 @@ export class Utils {
     return valueArray
   }
 
-  static empty(array) {
-    if (array.length > 0) {
-      return array.splice(0, array.length)
+  static emptyObject(object) {
+    for (let key in object) {
+      delete object[key]
     }
   }
 }

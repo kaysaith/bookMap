@@ -49,6 +49,7 @@ Page({
 
   longClick: function(event) {
     this.setData({ isLongClick: true })
+    wx.vibrateShort() // 增加震动体验
     wx.showModal({
       title: '删除图书',
       content: '确定要删除这本书么?',
@@ -163,7 +164,7 @@ function getSearchedResult(that) {
       },
       success: (result) => {
         // 如果没有搜索结果设置状态后提前退出
-        if (result.data.length == 0) {
+        if (result.data.length === 0) {
           that.setData({ showEmptyView: true })
           wx.hideLoading()
           return
@@ -173,7 +174,10 @@ function getSearchedResult(that) {
           return Utils.bookModel(it)
         })
         // 更新UI
-        that.setData({  resultList: searchResult })
+        that.setData({  
+          resultList: searchResult,
+          showEmptyView: false
+        })
         wx.hideLoading()
       },
       fail: () => {

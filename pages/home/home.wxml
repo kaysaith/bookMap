@@ -1,57 +1,55 @@
 <!--index.wxml-->
-<view class = 'home'>
-  <view class = 'header'>
-    <view class = 'topBar'>
-      <label 
-        class = "createButton {{ showCreateButton?'show':'hide' }}"
-        catchtap = 'showEditor'>+</label>
-      <label 
-        class = "cancelButton {{ showCancelButton?'show':'hide' }}"
-        catchtap = 'cancelSearch'>取消</label>
-      <view class='search'>
-        <input 
-          placeholder = "搜索书名" 
-          value = '{{ defaultSearchInputValue }}'
-          bindfocus = 'showResult' 
-          bindinput = 'getKeyword'
-          bindconfirm = 'search'/>
-      </view>
+<view class = 'header'>
+  <view class = 'topBar'>
+    <label 
+      class = "createButton {{ showCreateButton?'show':'hide' }}"
+      catchtap = 'showEditor'>+</label>
+    <label 
+      class = "cancelButton {{ showCancelButton?'show':'hide' }}"
+      catchtap = 'cancelSearch'>取消</label>
+    <view class='search'>
+      <input 
+        placeholder = "搜索书名" 
+        value = '{{ defaultSearchInputValue }}'
+        bindfocus = 'showResult' 
+        bindinput = 'getKeyword'
+        bindconfirm = 'search'/>
     </view>
-    <text class = 'left'>全部图书</text>
-    <text class = 'right' catchtap = 'showSettings'> | 设置</text>
-    <text class = 'right'>累计 2092 本</text>
+  </view>
+  <text class = 'left'>全部图书</text>
+  <text class = 'right' catchtap = 'showSettings'> | 设置</text>
+  <text class = 'right'>累计 2092 本</text>
+</view>
+
+<!-- Scroll View -->
+<scroll-view 
+class = 'bookList'
+scroll-y style = "height: {{ scrollViewHeight }}px" 
+bindscrolltolower = "upper" 
+scroll-into-view = "{{ toView }}"
+bindscroll = "scroll"
+bindtouchend = 'touchEnd'
+scroll-top = "{{ scrollTopValue }}"
+enable-back-to-top = 'true'>
+  
+  <view class = "emptyView {{showEmptyView?'show':'hide'}}">
+    <image src = '../../sources/images/shelfPlaceholder.jpg'></image>
+    <text>OPPS, You haven't created any book here</text>
   </view>
 
-  <!-- Scroll View -->
-  <scroll-view 
-  scroll-y style = "height: {{ scrollViewHeight }}px" 
-  bindscrolltolower = "upper" 
-  scroll-into-view = "{{ toView }}"
-  bindscroll = "scroll"
-  bindtouchend = 'touchEnd'
-  scroll-top = "{{ scrollTopValue }}"
-  scroll-with-animation = true
-  enable-back-to-top = 'true'>
-    
-    <view class = "emptyView {{showEmptyView?'show':'hide'}}">
-      <image src = '../../sources/images/shelfPlaceholder.jpg'></image>
-      <text>OPPS, You haven't created any book here</text>
-    </view>
-
-    <view 
-      class = 'child'
-      catchtap = "goToDetail"
-      wx:for = "{{ homeBooks }}"
-      data-index = "{{ index }}"
-      data-id = "{{ homeBooks[index].id }}"
-      catchlongpress = 'longClick'
-      wx:key = "{{ index }}">
-      <label class='bookID'># {{ item.id }}</label>
-      <image mode = 'aspectFill' src="{{ item.src }}"></image>
-      <text>{{item.name}}</text>
-    </view>
-  </scroll-view>
-</view>
+  <view 
+    class = 'child'
+    catchtap = "goToDetail"
+    wx:for = "{{ homeBooks }}"
+    data-index = "{{ index }}"
+    data-id = "{{ homeBooks[index].id }}"
+    catchlongpress = 'longClick'
+    wx:key = "{{ index }}">
+    <label class='bookID'># {{ item.id }}</label>
+    <image mode = 'aspectFill' src="{{ item.src }}"></image>
+    <text>{{item.name}}</text>
+  </view>
+</scroll-view>
 
 <editor 
   id = 'editor' 
