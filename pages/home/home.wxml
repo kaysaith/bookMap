@@ -31,7 +31,7 @@ bindscroll = "scroll"
 bindtouchend = 'touchEnd'
 scroll-top = "{{ scrollTopValue }}"
 enable-back-to-top = 'true'>
-  
+  <view class = 'headerView'></view> <!-- 未来会显示下拉刷新的样式 -->
   <view class = "emptyView {{showEmptyView?'show':'hide'}}">
     <image src = '../../sources/images/shelfPlaceholder.jpg'></image>
     <text>OPPS, You haven't created any book here</text>
