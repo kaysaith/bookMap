@@ -42,8 +42,9 @@ Component({
   methods: {
     // 显示悬浮曾的开关
     switchOverlay: function (params = { info: Object, isEditor: Boolean }) {
+      
       // 通过父级调用自定义组件这个方法进行传值
-      if (params.isEditor) {
+      if (params.isEditor === true) {
         // 在编辑模式下更新 `UI` 显示的内容
         this.setData({
           isEditor: true,
@@ -59,14 +60,12 @@ Component({
         bookInfo.columnIndex = params.info.column
         bookInfo.bookID = params.info.id
         bookInfo.cover = params.info.src
+      } else {
+        Utils.emptyObject(bookInfo)
       }
       this.setData({ showView: !this.data.showView })
       // 悬浮曾关闭后恢复初始值
-      if (!this.data.showView) { 
-        this.setData({ hasUploaded: false })
-        // 关闭后清空对象
-        if (Object.keys(bookInfo).length > 0) Utils.emptyObject(bookInfo)
-      }
+      if (!this.data.showView) this.setData({ hasUploaded: false })
     },
     getBookName: function(content) {
       bookInfo.name = content.detail.value
@@ -160,7 +159,8 @@ function chooseImage(callback) {
 
 function updateInfo(params = { page, cover, isEditor }) {
   let apiUrl = params.isEditor ? Api.modifyBookInfo : Api.createBook
-  
+  console.log(bookInfo.tag)
+  if (typeof bookInfo.tag === 'undefined') bookInfo.tag = ''
   wx.getStorage({
     key: 'account',
     success: function(res) { 

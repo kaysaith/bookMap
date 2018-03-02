@@ -81,23 +81,26 @@ export class Utils {
 
   // 支持全角和半角符号进行切分
   static convertStringByComma(text) {
-    const valueArray = []
-    let value = ''
-    for (let index = 0; index < text.length; index++) {
-      value += text[index]
-      if (
-        text[index] === ','
-        || text[index] === '，'
-        || index === text.length - 1) {
+    if (text.length === 0) return ''
+    else {
+      const valueArray = []
+      let value = ''
+      for (let index = 0; index < text.length; index++) {
+        value += text[index]
+        if (
+          text[index] === ','
+          || text[index] === '，'
+          || index === text.length - 1) {
           if (index !== text.length - 1)
             // 删除提取出来的最后一个逗号
             valueArray.push(value.split('').splice(0, value.length - 1).join(''))
-          else 
+          else
             valueArray.push(value)
-        value = ''
+          value = ''
+        }
       }
+      return valueArray
     }
-    return valueArray
   }
 
   static emptyObject(object) {

@@ -44,7 +44,7 @@ Page({
   },
 
   touchEnd: function(event) {
-    if (this.data.isPullEvent) refreshPage(this)
+    if (this.data.isPullEvent === true) refreshPage(this)
   },
 
   longClick: function(event) {
@@ -65,7 +65,7 @@ Page({
     flipPage(this)
     
     this.setData({
-      scrollViewHeight: wx.getSystemInfoSync().windowHeight - 130,
+      scrollViewHeight: wx.getSystemInfoSync().windowHeight,
       resultHeight: wx.getSystemInfoSync().windowHeight - 130
     })
   },
@@ -92,6 +92,8 @@ Page({
 
   goToDetail: function(event) {
     if (this.data.isLongClick) return
+    console.log('++++++' + this.data.homeBooks.length + "++++++")
+    console.log('++++++' + this.data.homeBooks[event.currentTarget.dataset.index] + "++++++")
     const data = JSON.stringify(this.data.homeBooks [event.currentTarget.dataset.index])
     wx.navigateTo({ url: '../detail/detail?pageInfo=' + data })
   },
@@ -130,6 +132,10 @@ Page({
     }
    },
 
+  onShow: function()  {
+    
+  },
+
   // 获取搜索关键词
   getKeyword: function (content) {
     this.data.searchKeyword = content.detail.value
@@ -148,7 +154,10 @@ function deleteBook(that, bookID) {
   wx.request({
     url: Api.deleteBook,
     data: { bookID: bookID },
-    success: () => refreshPage(that)
+    success: () => {
+      refreshPage(that)
+      that.setData({ isLongClick: false })
+    }
   })
 }
 
@@ -196,19 +205,23 @@ function refreshPage(that) {
   that.data.homeBooks.splice(0, that.data.homeBooks.length)
   that.data.loadingDescription = '正在刷新数据'
   currentPageCount = 0
-  flipPage(that)
-  // 滚动到最顶部
-  that.setData({
-    scrollTopValue: 0,
-    isNoMorePage: false,
-    isPullEvent: false,
-    loadingDescription: '正在加载图书'
+  flipPage(that, () => {
+    // 滚动到最顶部
+    that.setData({
+      scrollTopValue: 0,
+      isNoMorePage: false,
+      isPullEvent: false,
+      loadingDescription: '正在加载图书'
+    })
   })
 }
 
-function flipPage(that) {
+function flipPage(that, callback) {
   if (that.data.isNoMorePage) return // 如果没有更多就不用向下执行了
-  wx.showLoading({ title: that.data.loadingDescription })
+  wx.showLoading({ 
+    title: that.data.loadingDescription, 
+    mask: true
+  })
   getBooks(currentPageCount, (books) => {
     // 如果已经拉不到整页的数据意味当下已经拉完了服务器的数据
     if (books.length < singlePageCount) that.data.isNoMorePage = true
@@ -238,6 +251,7 @@ function flipPage(that) {
       homeBooks: that.data.homeBooks,
     })
     wx.hideLoading()
+    if (typeof callback === 'function') callback()
   })
 }
 
