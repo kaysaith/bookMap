@@ -20,8 +20,11 @@
 
     <text>标签</text>
     <view class = 'border'></view>
-    <view class='tag'>HISTORY</view>
-    <view class='tag'>意识流</view>
+    <view 
+      class='tag'
+      wx:for = "{{ tags }}"
+      data-index = "{{ index }}"
+      wx:key = "{{ index }}">{{ item }}</view>
   </view>
 </scroll-view>
 
