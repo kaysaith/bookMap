@@ -21,46 +21,23 @@ Page({
     getShelfList(this)
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  goToShelfDetail: function(event) {
+    wx.setStorage({
+      key: Utils.appKeyValue.currentShelfID,
+      data: event.currentTarget.dataset.shelfid,
+      success: () => {
+        const data = {
+          memberName: event.currentTarget.dataset.membername ,
+          booksCount: event.currentTarget.dataset.bookscount 
+        }
+        // 存储成功书柜 `shelfID` 后跳转到书柜页面
+        wx.navigateTo({ url: '../home/home?pageInfo=' + JSON.stringify(data) })
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
+    wx.removeStorage({ key: Utils.appKeyValue.currentShelfID })
   }
 })
 
@@ -72,7 +49,7 @@ function getShelfList(that) {
         openid: userInfo.openid
       },
       success: (result) => {
-        const resultList = result.data.map((it) => {  return shelfModel(it)})
+        const resultList = result.data.map((it) => {  return shelfModel(it) })
         that.setData({ shelfList: resultList })
       }
     })
@@ -83,6 +60,7 @@ function shelfModel(data) {
   return {
     shelfID: data.ShelfID,
     name: data.Nick,
-    description: data.booksCount +  ' books in this shelf'
+    description: data.booksCount +  ' books in this shelf',
+    booksCount: data.booksCount
   }
 }

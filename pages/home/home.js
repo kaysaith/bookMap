@@ -25,7 +25,10 @@ Page({
 
     loadingDescription: '正在加载图书',
 
-    isLongClick: false
+    isLongClick: false,
+    showSettings: true,
+    memberName: '',
+    booksCount: '0'
   },
 
   upper: function (e) {
@@ -61,6 +64,19 @@ Page({
   },
 
   onLoad: function (options) {
+    
+    // 如果有接收到传递过来的 `PageInfo` 就解析
+    if (options.pageInfo) {
+      const pageInfo = JSON.parse(options.pageInfo)
+      this.setData({
+        showSettings: false,
+        memberName: pageInfo.memberName + '的',
+        booksCount: pageInfo.booksCount
+      })
+    }
+
+    // 显示图书总数
+    updateBooksCount(this) 
 
     // 初始化加载第一页数据
     flipPage(this)
@@ -164,12 +180,12 @@ function deleteBook(that, bookID) {
 // 执行搜索并获取结果的数组对象
 function getSearchedResult(that) {
   wx.showLoading({ title: '正在搜索' })
-  Utils.getUserInfo((userInfo) => {
+  getCurrentShelfID((shelfID) => {
     wx.request({
       url: Api.searchBook,
       data: {
         keyword: that.data.searchKeyword,
-        shelfID: userInfo.shelfID
+        shelfID: shelfID
       },
       success: (result) => {
         // 如果没有搜索结果设置状态后提前退出
@@ -183,7 +199,7 @@ function getSearchedResult(that) {
           return Utils.bookModel(it)
         })
         // 更新UI
-        that.setData({  
+        that.setData({
           resultList: searchResult,
           showEmptyView: false
         })
@@ -218,6 +234,8 @@ function refreshPage(that) {
       loadingDescription: '正在加载图书'
     })
   })
+
+  updateBooksCount(that) 
 }
 
 function flipPage(that, callback) {
@@ -260,14 +278,14 @@ function flipPage(that, callback) {
 }
 
 function getBooks(startIndex, hold) {
-  Utils.getUserInfo((userInfo) => {
+  Utils.getCurrentShelfID((shelfID) => {
     requestFromServer()
     // 如此设立是为了方便失败回调
     function requestFromServer() {
       wx.request({
         url: Api.getBooks,
         data: {
-          shelfID: userInfo.shelfID,
+          shelfID: shelfID,
           startIndex: startIndex
         },
         success: (result) => {
@@ -276,5 +294,19 @@ function getBooks(startIndex, hold) {
         fail: () => Utils.retry(requestFromServer)
       })
     }
+  })  
+}
+
+function updateBooksCount(that) {
+  Utils.getCurrentShelfID((shelfID) => {
+    wx.request({
+      url: Api.getShelfBooksCount,
+      data: {
+        shelfID: shelfID
+      },
+      success: (result) => {
+        that.setData({ booksCount: result.data })
+      }
+    })
   })
 }

@@ -20,5 +20,6 @@ export const Api = {
   updateTargetBookInfo: header + '/updateTargetBookInfo',
   searchBook: header + '/searchBook',
   deleteBook: header + '/deleteBook',
-  getShelfList:  header + '/getShelfList'
+  getShelfList:  header + '/getShelfList',
+  getShelfBooksCount: header + '/getShelfBooksCount'
 } 
