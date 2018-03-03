@@ -1,19 +1,24 @@
 // pages/family/detail.js
+
+import { Api } from '../../common/api'
+import { Utils } from '../../common/component'
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    showFamilyList: false,
-    showEmptyView: true
+
+    showFamilyList: true,
+    shelfList: [],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    getShelfList(this)
   },
 
   /**
@@ -58,3 +63,26 @@ Page({
   
   }
 })
+
+function getShelfList(that) {
+  Utils.getUserInfo((userInfo) => {
+    wx.request({
+      url: Api.getShelfList,
+      data: {
+        openid: userInfo.openid
+      },
+      success: (result) => {
+        const resultList = result.data.map((it) => {  return shelfModel(it)})
+        that.setData({ shelfList: resultList })
+      }
+    })
+  })
+}
+
+function shelfModel(data) {
+  return {
+    shelfID: data.ShelfID,
+    name: data.Nick,
+    description: data.booksCount +  ' books in this shelf'
+  }
+}

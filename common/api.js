@@ -2,7 +2,7 @@
  * Api Address
  */
 
-const isDebugMode = false
+const isDebugMode = true
 
 const header = !isDebugMode 
   ? 'https://bookmap.naonaola.com:8888' 
@@ -19,5 +19,6 @@ export const Api = {
   modifyBookInfo: header + '/modifyBookInfo',
   updateTargetBookInfo: header + '/updateTargetBookInfo',
   searchBook: header + '/searchBook',
-  deleteBook: header + '/deleteBook'
+  deleteBook: header + '/deleteBook',
+  getShelfList:  header + '/getShelfList'
 } 
