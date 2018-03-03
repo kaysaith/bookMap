@@ -2,10 +2,10 @@
 <view class = 'header'>
   <view class = 'topBar'>
     <label 
-      class = "createButton {{ showCreateButton?'show':'hide' }}"
+      class = "createButton {{ showCreateButton ? 'show' : 'hide' }}"
       catchtap = 'showEditor'>+</label>
     <label 
-      class = "cancelButton {{ showCancelButton?'show':'hide' }}"
+      class = "cancelButton {{ showCancelButton ? 'show' : 'hide' }}"
       catchtap = 'cancelSearch'>取消</label>
     <view class='search'>
       <input 
@@ -16,9 +16,9 @@
         bindconfirm = 'search'/>
     </view>
   </view>
-  <text class = 'left'>全部图书</text>
-  <text class = 'right' catchtap = 'showSettings'> | 设置</text>
-  <text class = 'right'>累计 2092 本</text>
+  <text class = 'left'>{{ memberName }}全部图书</text>
+  <text class = "right {{ showSettings ? 'show' : 'hide' }}" catchtap = 'showSettings'> | 设置</text>
+  <text class = 'right'>累计 {{ booksCount }} 本</text>
 </view>
 
 <!-- Scroll View -->
@@ -32,7 +32,7 @@ bindtouchend = 'touchEnd'
 scroll-top = "{{ scrollTopValue }}"
 enable-back-to-top = 'true'>
   <view class = 'headerView'></view> <!-- 未来会显示下拉刷新的样式 -->
-  <view class = "emptyView {{showEmptyView?'show':'hide'}}">
+  <view class = "emptyView {{ showEmptyView ? 'show' : 'hide' }}">
     <image src = '../../sources/images/shelfPlaceholder.jpg'></image>
     <text>OPPS, You haven't created any book here</text>
   </view>

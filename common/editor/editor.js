@@ -158,44 +158,43 @@ function chooseImage(callback) {
 }
 
 function updateInfo(params = { page, cover, isEditor }) {
+  
   let apiUrl = params.isEditor ? Api.modifyBookInfo : Api.createBook
-  console.log(bookInfo.tag)
+  
   if (typeof bookInfo.tag === 'undefined') bookInfo.tag = ''
-  wx.getStorage({
-    key: 'account',
-    success: function(res) { 
-      let apiParameters = {
-        name: bookInfo.name,
-        cover: params.cover,
-        tag: bookInfo.tag,
-        row: bookInfo.row,
-        columnIndex: bookInfo.columnIndex,
-        shelfID: res.data.shelfID,
-      }
 
-      // 如果是编辑模式需要额外传入图书的 `ID`
-      if (params.isEditor) apiParameters.bookID = bookInfo.bookID
-      wx.request({
-        url: apiUrl,
-        data: apiParameters,
-        success: function () {
-          wx.hideLoading()
-          wx.showToast({ title: '创建成功' })
-          params.page.setData({ showView: !params.page.data.showView })
-          // 完毕后关闭悬浮曾并清空接收器
-          if (params.page.data.showView === false)
-            params.page.setData({
-              hasUploaded: false,
-              bookNameInput: '',
-              bookTagInput: '',
-              columnInput: '',
-              rowInput: ''
-            })
-
-          params.page.triggerEvent("hasBeenCreated")
-        }
-      })
+  Utils.getCurrentShelfID((shelfID) => {
+    let apiParameters = {
+      name: bookInfo.name,
+      cover: params.cover,
+      tag: bookInfo.tag,
+      row: bookInfo.row,
+      columnIndex: bookInfo.columnIndex,
+      shelfID: shelfID,
     }
+
+    // 如果是编辑模式需要额外传入图书的 `ID`
+    if (params.isEditor) apiParameters.bookID = bookInfo.bookID
+    wx.request({
+      url: apiUrl,
+      data: apiParameters,
+      success: function () {
+        wx.hideLoading()
+        wx.showToast({ title: '创建成功' })
+        params.page.setData({ showView: !params.page.data.showView })
+        // 完毕后关闭悬浮曾并清空接收器
+        if (params.page.data.showView === false)
+          params.page.setData({
+            hasUploaded: false,
+            bookNameInput: '',
+            bookTagInput: '',
+            columnInput: '',
+            rowInput: ''
+          })
+
+        params.page.triggerEvent("hasBeenCreated")
+      }
+    })
   })
 }
 

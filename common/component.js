@@ -6,6 +6,11 @@ let retryTimes = 3
 let isRetrying = false
 
 export class Utils {
+
+  static appKeyValue = {
+    currentShelfID: 'currentShelfID'
+  }
+
   static chooseImage(callback) {
     wx.chooseImage({
       success: function(response) {
@@ -103,6 +108,21 @@ export class Utils {
     }
   }
 
+  static getCurrentShelfID(hold) {
+    wx.getStorage({
+      key: Utils.appKeyValue.currentShelfID,
+      success: function (res) {
+        // 成功意味着是登录的时候从家庭列表存入的他人 `ShelfID`
+        if (typeof hold === 'function') hold(res.data)
+      },
+      fail: () => {
+        // 失败意味着是自己登录的那么就获取自己的
+        Utils.getUserInfo((userInfo) => {
+          if (typeof hold === 'function') hold(userInfo.shelfID)
+        })
+      }
+    })
+  }
   static emptyObject(object) {
     for (let key in object) {
       delete object[key]
