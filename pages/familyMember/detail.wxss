@@ -13,7 +13,7 @@
   color: black;
   margin: 0 20px;
   font-weight: 400;
-  border-bottom: 0.5px solid #f1f1f1;
+  border-bottom: 0.5px solid #ddd;
 }
 
 .member button {
@@ -79,7 +79,7 @@
   width: calc(100% - 60px);
   margin: 0 0 30px 20px;
   padding-left: 20px;
-  border: 1px solid #e1e1e1;
+  border: 1px solid #eee;
 }
 
 .inputOverlayView .button {
