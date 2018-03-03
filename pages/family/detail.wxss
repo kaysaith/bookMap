@@ -19,3 +19,54 @@
   float: left;
   text-align: center;
 }
+
+
+.shelf {
+  width: calc(100vw - 40px);
+  height: 120px;
+  background-color: #f1f1f1;
+  border-radius: 15px;
+  float: left;
+  margin: 20px 0 0 20px;
+  position: relative;
+}
+
+.shelf image {
+  width: 60px;
+  height: 60px;
+  margin: 30px 10px 0 30px;
+  float: left;
+}
+
+.shelf .info {
+  width: calc(100% - 50px - 100px);
+  float: left;
+  margin: 35px 0 0 10px;
+}
+
+.shelf text {
+  color: #878a94;
+  float: left;
+}
+
+.shelf .name {
+  font-size: 24px;
+  font-weight: bold;
+  width: 100%;
+}
+
+.shelf .description {
+  font-size: 14px;
+  font-weight: 300;
+  color: #b0b3bf;
+  width: 100%;
+}
+
+.intro {
+  font-size: 12px;
+  color: #e1e1e1;
+  font-weight: 200;
+  position: absolute;
+  right: 30px;
+  top: 20px;
+}

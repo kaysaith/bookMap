@@ -1,9 +1,23 @@
 <!--pages/family/detail.wxml-->
-<view class = "container {{showEmptyView?'show':'hide'}}">
+<view class = "container {{showFamilyList?'hide':'show'}}">
   <image src = '../../sources/images/emptyPlaceholder.jpg'></image>
   <text>You haven't been added to the family yet</text>
 </view>
 
 <scroll-view class = "familyList {{showFamilyList?'show':'hide'}}">
+
+    <view 
+    class = 'shelf' 
+    catchtap = 'goToDetail'
+    wx:for = "{{ shelfList }}"
+    data-index = "{{ index }}"
+    wx:key = "{{ index }}">
+    <image src = '../../sources/images/shelfIcon.png'></image>
+     <view class = 'info'>
+      <text class = 'name'>{{ item.name }}</text>
+      <text class = 'description'>{{ item.description }}</text>
+    </view> 
+    <text class = 'intro'>Go to detail</text>
+  </view>  
 
 </scroll-view>

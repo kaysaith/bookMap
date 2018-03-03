@@ -62,8 +62,10 @@ Page({
 
   onLoad: function (options) {
 
+    // 初始化加载第一页数据
     flipPage(this)
     
+    // 更新页面 `ScrollView` 高度
     this.setData({
       scrollViewHeight: wx.getSystemInfoSync().windowHeight,
       resultHeight: wx.getSystemInfoSync().windowHeight - 130
@@ -92,8 +94,6 @@ Page({
 
   goToDetail: function(event) {
     if (this.data.isLongClick) return
-    console.log('++++++' + this.data.homeBooks.length + "++++++")
-    console.log('++++++' + this.data.homeBooks[event.currentTarget.dataset.index] + "++++++")
     const data = JSON.stringify(this.data.homeBooks [event.currentTarget.dataset.index])
     wx.navigateTo({ url: '../detail/detail?pageInfo=' + data })
   },
@@ -202,14 +202,18 @@ const singlePageCount = 10
 
 // 下拉刷新的方法
 function refreshPage(that) {
+  that.data.isNoMorePage =  false // 打开拉取数据的锁
+  // 刷新界面的时候清空内存中的首页数据
   that.data.homeBooks.splice(0, that.data.homeBooks.length)
+  // 更新 `loading` 文案
   that.data.loadingDescription = '正在刷新数据'
+  // 初始化页码
   currentPageCount = 0
+  // 执行加载数据的请求
   flipPage(that, () => {
     // 滚动到最顶部
     that.setData({
       scrollTopValue: 0,
-      isNoMorePage: false,
       isPullEvent: false,
       loadingDescription: '正在加载图书'
     })
@@ -225,7 +229,7 @@ function flipPage(that, callback) {
   getBooks(currentPageCount, (books) => {
     // 如果已经拉不到整页的数据意味当下已经拉完了服务器的数据
     if (books.length < singlePageCount) that.data.isNoMorePage = true
-    // 如果没有拉取导数据执行占位图提前跳出这个方法
+    // 如果没有拉取数据执行占位图提前跳出这个方法
     if (books.length === 0 && that.data.homeBooks.length === 0) { 
       that.setData({ showEmptyView: true })
       wx.hideLoading()

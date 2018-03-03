@@ -23,35 +23,65 @@ Page({
     interval: 5000,
     duration: 1000,
 
-    showLoginView: false
+    showLoginView: false,
+    isFamilyButton: false,
   },
 
   onLoad: function () {
-    wx.getStorage({
-      key: 'account',
-      success: function(res) {
-        wx.redirectTo({ url: '../home/home' })
-      },
-      fail: () => this.setData({ showLoginView: true })
+    autoLoginIfNeed((status) => {
+      if (status) {
+        wx.getStorage({
+          key: 'account',
+          success: (res) => wx.redirectTo({ url: '../home/home' }),
+          fail: () => this.setData({ showLoginView: true })
+        })
+      } else {
+        this.setData({ showLoginView: true })
+      }
     })
   },
 
   goToHomepage: (e) => {
+    setAutoLoginStatus(true)
     loginOrRegister() 
   },
 
-  goToFamilyDetail: () => wx.navigateTo({ url: '../family/detail' })
+  goToFamilyDetail: () => { 
+    setAutoLoginStatus(false)
+    loginOrRegister({ isFamilyButton: true })
+  }
 })
 
-function loginOrRegister() {
+function setAutoLoginStatus(needAutoLogin) {
+  wx.setStorage({
+    key: 'needRememberLoginStatus',
+    data: needAutoLogin,
+  })
+}
+
+function autoLoginIfNeed(callback) {
+  wx.getStorage({
+    key: 'needRememberLoginStatus',
+    success: function(res) {
+      if (typeof callback === 'function') callback(res.data)
+    },
+    fail: () => {
+      if (typeof callback === 'function') callback(false)
+    }
+  })
+}
+
+function loginOrRegister(params = { isFamilyButton: Boolean }) {
   wx.showLoading({ title: '正在校验登录数据' })
   wx.login({
     success: function (res) {
       if (res.code) {
         //发起网络请求
         getTokenAndUpdateUserInfo(res.code, () => {
-          // 校验用户态完成后登录
-          wx.redirectTo({ url: '../home/home' })
+           // 校验用户态完成后登录
+          params.isFamilyButton === true 
+            ? wx.navigateTo({ url: '../family/detail' })
+            : wx.redirectTo({ url: '../home/home' })
         })
       } else {
         console.log('获取用户登录态失败！' + res.errMsg)
