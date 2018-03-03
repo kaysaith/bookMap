@@ -2,7 +2,7 @@
  * Api Address
  */
 
-const isDebugMode = true
+const isDebugMode = false
 
 const header = !isDebugMode 
   ? 'https://bookmap.naonaola.com:8888' 
