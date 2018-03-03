@@ -12,6 +12,8 @@ Page({
     info: {},
     scrollViewHeight: 0,
     tags: [],
+    row: 0,
+    column: 0
   },
 
   /**
@@ -24,7 +26,8 @@ Page({
     this.setData({ 
       scrollViewHeight: wx.getSystemInfoSync().windowHeight,
       bookCover: this.data.info.src,
-      position: this.data.info.position,
+      row: this.data.info.row,
+      column: this.data.info.column,
       tags: Utils.convertStringByComma(this.data.info.tag)
     })
   },

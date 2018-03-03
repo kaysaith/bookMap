@@ -16,7 +16,16 @@
   <view class = 'content'>
     <text>存放位置</text>
     <view class = 'border'></view>
-    <label>{{ position }}</label>
+   
+    <view class = 'position'>
+      <text  class = 'intro'>ROW</text>
+      <text>{{ row }}</text>
+    </view>
+
+    <view  class = 'position'>
+      <text class = 'intro'>COLUMN</text>
+      <text>{{ column }}</text>
+    </view>
 
     <text>标签</text>
     <view class = 'border'></view>
