@@ -180,7 +180,7 @@ function deleteBook(that, bookID) {
 // 执行搜索并获取结果的数组对象
 function getSearchedResult(that) {
   wx.showLoading({ title: '正在搜索' })
-  getCurrentShelfID((shelfID) => {
+  Utils.getCurrentShelfID((shelfID) => {
     wx.request({
       url: Api.searchBook,
       data: {
