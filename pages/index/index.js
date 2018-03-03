@@ -2,6 +2,7 @@
 //获取应用实例
 
 import { Api } from '../../common/api'
+import { Utils } from '../../common/component.js'
 
 const app = getApp()
 
@@ -42,6 +43,7 @@ Page({
   },
 
   goToHomepage: (e) => {
+    wx.removeStorage({ key: Utils.appKeyValue.currentShelfID })
     setAutoLoginStatus(true)
     loginOrRegister() 
   },
