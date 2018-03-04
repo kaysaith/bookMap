@@ -115,12 +115,15 @@ Page({
     })
   },
 
+  // 去图书详情页面
   goToDetail: function(event) {
     if (this.data.isLongClick) return
-    const data = JSON.stringify(this.data.homeBooks [event.currentTarget.dataset.index])
+    const data = 
+      JSON.stringify(this.data.homeBooks [event.currentTarget.dataset.index])
     wx.navigateTo({ url: '../detail/detail?pageInfo=' + data })
   },
 
+  // 从搜索结果条目进入图书详情页面
   goToDetailFromSearchResult: function (event) {
     const data = JSON.stringify(this.data.resultList[event.currentTarget.dataset.index])
     wx.navigateTo({ url: '../detail/detail?pageInfo=' + data })
@@ -190,7 +193,7 @@ function getSearchedResult(that) {
   if (that.data.resultList.length > 0) {
     that.setData({ resultList: [] })
   }
-  
+
   wx.showLoading({ title: '正在搜索' })
   Utils.getCurrentShelfID((shelfID) => {
     wx.request({
@@ -232,7 +235,7 @@ const singlePageCount = 10
 function refreshPage(that) {
   that.data.isNoMorePage =  false // 打开拉取数据的锁
   // 刷新界面的时候清空内存中的首页数据
-  that.data.homeBooks.splice(0, that.data.homeBooks.length)
+  that.data.homeBooks = []
   // 更新 `loading` 文案
   that.data.loadingDescription = '正在刷新数据'
   // 初始化页码

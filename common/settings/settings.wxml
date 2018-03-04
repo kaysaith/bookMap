@@ -7,7 +7,7 @@
     </view>
 
     <label catchtap = 'goToFamilyMemberDetail'> 管理家庭成员</label>
-    <label catchtap = 'copy'>我的ID<span>{{ userID }}</span></label>
+    <label catchtap = 'copyID' data-userid = '{{ userID }}'>我的ID<span>{{ userID }}</span></label>
     <label catchtap = 'logOut'> 登出当前账号</label>
   </view>
 </view>

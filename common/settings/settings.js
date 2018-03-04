@@ -52,5 +52,13 @@ Component({
         }
       })
     },
+    copyID: function (event) {
+      wx.setClipboardData({
+        data: event.currentTarget.dataset.userid.toString(),
+        success: () => {
+          wx.showToast({ title: '赋值用户ID成功' })
+        }
+      })
+    }
   }
 })
