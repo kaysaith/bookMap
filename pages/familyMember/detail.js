@@ -76,12 +76,11 @@ Page({
 function addFamilyMember(callback) {
   wx.showLoading({ title: '正在创建' })
   Utils.getUserInfo((result) => {
-    info.selfOpenID = result.openid
     wx.request({
       url: Api.addMember,
       data: {
         shelfID: result.shelfID,
-        memberID: info.memberID
+        userID: info.memberID 
       },
       success: (response) =>  {
         wx.hideLoading()

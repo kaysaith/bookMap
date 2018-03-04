@@ -16,7 +16,7 @@
 <view class = "mask {{showOverlay?'show':'hide'}}">
   <view class = 'inputOverlayView'>
     <text>添加成员</text>
-    <input placeholder = '输入对方的微信ID' bindinput = 'getUserID'></input>
+    <input placeholder = '输入对方的用户ID' bindinput = 'getUserID'></input>
     <button class = 'confirmButton button' catchtap = 'confirm'>确认</button>
     <button class = 'cancelButton button' catchtap = 'cancel'>取消</button>
   </view>

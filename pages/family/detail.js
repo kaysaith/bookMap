@@ -46,7 +46,7 @@ function getShelfList(that) {
     wx.request({
       url: Api.getShelfList,
       data: {
-        openid: userInfo.openid
+        openid: userInfo.openID
       },
       success: (result) => {
         const resultList = result.data.map((it) => {  return shelfModel(it) })
