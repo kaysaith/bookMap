@@ -49,8 +49,12 @@ function getShelfList(that) {
         openid: userInfo.openID
       },
       success: (result) => {
+        console.log(result + "hello")
         const resultList = result.data.map((it) => {  return shelfModel(it) })
         that.setData({ shelfList: resultList })
+      },
+      fail: () => {
+        console.log('what')
       }
     })
   })

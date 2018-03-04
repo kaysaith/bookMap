@@ -5,7 +5,7 @@
 const isDebugMode = false
 
 const header = !isDebugMode 
-  ? 'https://bookmap.naonaola.com:8888' 
+  ? 'https://bookmap.naonaola.com'
   : 'https://127.0.0.1:8888'
 
 export const Api = {
