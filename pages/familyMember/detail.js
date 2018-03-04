@@ -3,8 +3,6 @@
 import { Utils } from '../../common/component'
 import { Api } from '../../common/api'
 
-let members = []
-
 let info = {
   memberID: '',
   selfOpenID: ''
@@ -46,7 +44,7 @@ Page({
   },
 
   deleteMember: function(event) {
-    let that = this
+    const that = this
     const currentOpenID = event.target.id
     wx.showModal({
       title: '删除成员',
@@ -55,22 +53,18 @@ Page({
         if (result.confirm) {
           deleteMemberFromList(currentOpenID, () => {
             let targetIndex
-            for (let index = 0; index < members.length; index++) {
-              if (members[index].OpenID === currentOpenID) {
+            for (let index = 0; index < that.data.array.length; index++) {
+              if (that.data.array[index].OpenID === currentOpenID) {
                 targetIndex = index
               }
             }
-            members.splice(targetIndex, 1)
-            that.setData({ array: members })
+            that.data.array.splice(targetIndex, 1)
+            that.setData({ array: that.data.array })
           })
         }
       }
     })
-  },
-  onUnload: function () {
-    // 页面卸载的时候初始化数组内容
-    members.splice(0, members.length)
-  },
+  }
 })
 
 function addFamilyMember(callback) {
@@ -104,9 +98,9 @@ function getMemberList(that) {
       },
       success: (result) => {
         wx.hideLoading()
-        members.splice(0, members.length)
-        result.data.forEach(it => { members.push(it) })
-        that.setData({ array: members })
+        that.data.array = [],
+          result.data.forEach(it => { that.data.array.push(it) })
+        that.setData({ array: that.data.array })
       },
       fail: () => {
         wx.hideLoading()
