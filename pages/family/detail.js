@@ -10,7 +10,7 @@ Page({
    */
   data: {
 
-    showFamilyList: true,
+    showFamilyList: false,
     shelfList: [],
   },
 
@@ -49,9 +49,11 @@ function getShelfList(that) {
         openid: userInfo.openID
       },
       success: (result) => {
-        console.log(result + "hello")
         const resultList = result.data.map((it) => {  return shelfModel(it) })
-        that.setData({ shelfList: resultList })
+        that.setData({ 
+          shelfList: resultList, 
+          showFamilyList: true  
+        })
       },
       fail: () => {
         console.log('what')
