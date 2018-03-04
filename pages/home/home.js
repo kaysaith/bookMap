@@ -186,6 +186,11 @@ function deleteBook(that, bookID) {
 
 // 执行搜索并获取结果的数组对象
 function getSearchedResult(that) {
+  // 每次执行搜索前先清空搜索列表
+  if (that.data.resultList.length > 0) {
+    that.setData({ resultList: [] })
+  }
+  
   wx.showLoading({ title: '正在搜索' })
   Utils.getCurrentShelfID((shelfID) => {
     wx.request({
