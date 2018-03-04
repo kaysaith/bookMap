@@ -28,7 +28,9 @@ Page({
     isLongClick: false,
     showSettings: true,
     memberName: '',
-    booksCount: '0'
+    booksCount: '0',
+
+    userID: 0
   },
 
   upper: function (e) {
@@ -72,6 +74,11 @@ Page({
         showSettings: false,
         memberName: pageInfo.memberName + '的',
         booksCount: pageInfo.booksCount
+      })
+    } else {
+      // 进入自己的界面就设置 `UserID`
+      Utils.getUserInfo((userInfo) => {
+        this.setData({ userID: userInfo.userID })
       })
     }
 

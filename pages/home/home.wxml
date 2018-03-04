@@ -55,4 +55,4 @@ enable-back-to-top = 'true'>
   id = 'editor' 
   bind:hasBeenCreated = 'hasBeenCreated'></editor>
 <include src = "../../common/searchResult.wxml"/>
-<settings id = 'settings'></settings>
+<settings id = 'settings' userID = '{{ userID }}'></settings>
